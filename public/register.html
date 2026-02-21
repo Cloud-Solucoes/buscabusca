@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BuscaBusca — Criar conta</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center p-4">
+
+  <div class="w-full max-w-md">
+    <!-- Logo / Brand -->
+    <div class="text-center mb-8">
+      <div class="inline-flex items-center justify-center w-14 h-14 bg-indigo-600 rounded-2xl shadow-lg mb-4">
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8 text-white" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 21v-7.5a.75.75 0 01.75-.75h3a.75.75 0 01.75.75V21m-4.5 0H2.36m11.14 0H18m0 0h3.64m-1.39 0V9.349m-16.5 11.65V9.35m0 0a3.001 3.001 0 003.75-.615A2.993 2.993 0 009.75 9.75c.896 0 1.7-.393 2.25-1.016a2.993 2.993 0 002.25 1.016c.896 0 1.7-.393 2.25-1.016a3.001 3.001 0 003.75.614m-16.5 0a3.004 3.004 0 01-.621-4.72L4.318 3.44A1.5 1.5 0 015.378 3h13.243a1.5 1.5 0 011.06.44l1.19 1.189a3 3 0 01-.621 4.72m-13.5 8.65h3.75a.75.75 0 00.75-.75V13.5a.75.75 0 00-.75-.75H6.75a.75.75 0 00-.75.75v3.75c0 .415.336.75.75.75z" />
+        </svg>
+      </div>
+      <h1 class="text-2xl font-bold text-gray-900">BuscaBusca</h1>
+      <p class="text-gray-500 text-sm mt-1">Plataforma de Cadastro de Lojistas</p>
+    </div>
+
+    <!-- Card -->
+    <div class="bg-white rounded-2xl shadow-xl p-8">
+      <h2 class="text-xl font-semibold text-gray-800 mb-6">Criar sua conta</h2>
+
+      <!-- Alerta -->
+      <div id="alert" class="hidden mb-4 p-3 rounded-lg text-sm font-medium"></div>
+
+      <form id="registerForm" class="space-y-5">
+        <!-- Nome -->
+        <div>
+          <label for="nome" class="block text-sm font-medium text-gray-700 mb-1">Nome completo</label>
+          <input
+            type="text"
+            id="nome"
+            name="nome"
+            autocomplete="name"
+            required
+            placeholder="João Silva"
+            class="w-full px-4 py-2.5 rounded-lg border border-gray-300 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition"
+          >
+        </div>
+
+        <!-- E-mail -->
+        <div>
+          <label for="email" class="block text-sm font-medium text-gray-700 mb-1">E-mail</label>
+          <input
+            type="email"
+            id="email"
+            name="email"
+            autocomplete="email"
+            required
+            placeholder="seu@email.com"
+            class="w-full px-4 py-2.5 rounded-lg border border-gray-300 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition"
+          >
+        </div>
+
+        <!-- Senha -->
+        <div>
+          <label for="senha" class="block text-sm font-medium text-gray-700 mb-1">Senha <span class="text-gray-400 font-normal">(mín. 6 caracteres)</span></label>
+          <div class="relative">
+            <input
+              type="password"
+              id="senha"
+              name="senha"
+              autocomplete="new-password"
+              required
+              minlength="6"
+              placeholder="••••••••"
+              class="w-full px-4 py-2.5 pr-11 rounded-lg border border-gray-300 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition"
+            >
+            <button type="button" onclick="togglePassword('senha', 'eye1')"
+              class="absolute inset-y-0 right-0 flex items-center px-3 text-gray-400 hover:text-gray-600 transition">
+              <span id="eye1"><svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.641 0-8.573-3.007-9.963-7.178z" /><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /></svg></span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Confirmar Senha -->
+        <div>
+          <label for="confirmarSenha" class="block text-sm font-medium text-gray-700 mb-1">Confirmar senha</label>
+          <div class="relative">
+            <input
+              type="password"
+              id="confirmarSenha"
+              name="confirmarSenha"
+              autocomplete="new-password"
+              required
+              minlength="6"
+              placeholder="••••••••"
+              class="w-full px-4 py-2.5 pr-11 rounded-lg border border-gray-300 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition"
+            >
+            <button type="button" onclick="togglePassword('confirmarSenha', 'eye2')"
+              class="absolute inset-y-0 right-0 flex items-center px-3 text-gray-400 hover:text-gray-600 transition">
+              <span id="eye2"><svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.641 0-8.573-3.007-9.963-7.178z" /><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /></svg></span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Botão -->
+        <button
+          type="submit"
+          id="btnSubmit"
+          class="w-full py-2.5 px-4 bg-indigo-600 hover:bg-indigo-700 disabled:opacity-60 disabled:cursor-not-allowed text-white font-semibold rounded-lg transition focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+        >
+          Criar conta
+        </button>
+      </form>
+
+      <!-- Link login -->
+      <p class="mt-6 text-center text-sm text-gray-600">
+        Já tem uma conta?
+        <a href="/login.html" class="text-indigo-600 hover:text-indigo-800 font-medium transition">Entrar</a>
+      </p>
+    </div>
+  </div>
+
+  <script>
+    if (sessionStorage.getItem('bb_token')) {
+      window.location.href = '/dashboard.html';
+    }
+
+    const eyeOpen  = `<svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.641 0-8.573-3.007-9.963-7.178z" /><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /></svg>`;
+    const eyeSlash = `<svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M3.98 8.223A10.477 10.477 0 001.934 12C3.226 16.338 7.244 19.5 12 19.5c.993 0 1.953-.138 2.863-.395M6.228 6.228A10.45 10.45 0 0112 4.5c4.756 0 8.773 3.162 10.065 7.498a10.523 10.523 0 01-4.293 5.774M6.228 6.228L3 3m3.228 3.228l3.65 3.65m7.894 7.894L21 21m-3.228-3.228l-3.65-3.65m0 0a3 3 0 10-4.243-4.243m4.242 4.242L9.88 9.88" /></svg>`;
+
+    function togglePassword(inputId, iconId) {
+      const input  = document.getElementById(inputId);
+      const icon   = document.getElementById(iconId);
+      const isHide = input.type === 'password';
+      input.type   = isHide ? 'text' : 'password';
+      icon.innerHTML = isHide ? eyeSlash : eyeOpen;
+    }
+
+    function showAlert(message, type = 'error') {
+      const el = document.getElementById('alert');
+      el.textContent = message;
+      el.className = type === 'error'
+        ? 'mb-4 p-3 rounded-lg text-sm font-medium bg-red-50 text-red-700 border border-red-200'
+        : 'mb-4 p-3 rounded-lg text-sm font-medium bg-green-50 text-green-700 border border-green-200';
+      el.classList.remove('hidden');
+    }
+
+    document.getElementById('registerForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const btn   = document.getElementById('btnSubmit');
+      const senha = document.getElementById('senha').value;
+      const conf  = document.getElementById('confirmarSenha').value;
+
+      if (senha !== conf) {
+        showAlert('As senhas não coincidem');
+        return;
+      }
+
+      btn.disabled    = true;
+      btn.textContent = 'Criando conta...';
+
+      try {
+        const res = await fetch('/register', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            nome:  document.getElementById('nome').value.trim(),
+            email: document.getElementById('email').value.trim(),
+            senha,
+          }),
+        });
+
+        const data = await res.json();
+
+        if (data.success) {
+          sessionStorage.setItem('bb_token',   data.data.token);
+          sessionStorage.setItem('bb_email',   data.data.usuario.email);
+          sessionStorage.setItem('bb_nome',    data.data.usuario.nome ?? data.data.usuario.email);
+          sessionStorage.setItem('bb_user_id', data.data.usuario.id);
+          window.location.href = '/dashboard.html';
+        } else {
+          showAlert(data.message || 'Erro ao criar conta');
+          btn.disabled    = false;
+          btn.textContent = 'Criar conta';
+        }
+      } catch {
+        showAlert('Erro de conexão. Tente novamente.');
+        btn.disabled    = false;
+        btn.textContent = 'Criar conta';
+      }
+    });
+  </script>
+</body>
+</html>

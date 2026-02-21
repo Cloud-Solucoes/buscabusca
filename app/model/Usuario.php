@@ -125,4 +125,57 @@ class Usuario extends TRecord
         $this->token_expira_em = null;
         $this->store();
     }
+
+    /**
+     * Gera token de recuperação de senha (validade: 1 hora)
+     */
+    public function generateResetToken(): string
+    {
+        $token  = bin2hex(random_bytes(32));
+        $expiry = date('Y-m-d H:i:s', strtotime('+1 hour'));
+
+        $this->reset_token        = $token;
+        $this->reset_token_expiry = $expiry;
+        $this->store();
+
+        return $token;
+    }
+
+    /**
+     * Busca usuário pelo token de recuperação de senha
+     */
+    public static function findByResetToken(string $token): ?self
+    {
+        $criteria = new TCriteria;
+        $criteria->add(new TFilter('reset_token', '=', $token));
+
+        $repo    = new TRepository('Usuario');
+        $results = $repo->load($criteria);
+
+        if (!$results) {
+            return null;
+        }
+
+        $usuario = $results[0];
+
+        if (empty($usuario->reset_token_expiry)) {
+            return null;
+        }
+
+        if (strtotime($usuario->reset_token_expiry) < time()) {
+            return null;
+        }
+
+        return $usuario;
+    }
+
+    /**
+     * Limpa o token de recuperação de senha após uso
+     */
+    public function clearResetToken(): void
+    {
+        $this->reset_token        = null;
+        $this->reset_token_expiry = null;
+        $this->store();
+    }
 }

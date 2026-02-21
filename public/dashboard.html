@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BuscaBusca — Painel</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="min-h-screen bg-gray-50">
+
+  <!-- Header -->
+  <header class="bg-white border-b border-gray-200 shadow-sm">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <div class="inline-flex items-center justify-center w-9 h-9 bg-indigo-600 rounded-xl">
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-white" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 21v-7.5a.75.75 0 01.75-.75h3a.75.75 0 01.75.75V21m-4.5 0H2.36m11.14 0H18m0 0h3.64m-1.39 0V9.349m-16.5 11.65V9.35m0 0a3.001 3.001 0 003.75-.615A2.993 2.993 0 009.75 9.75c.896 0 1.7-.393 2.25-1.016a2.993 2.993 0 002.25 1.016c.896 0 1.7-.393 2.25-1.016a3.001 3.001 0 003.75.614m-16.5 0a3.004 3.004 0 01-.621-4.72L4.318 3.44A1.5 1.5 0 015.378 3h13.243a1.5 1.5 0 011.06.44l1.19 1.189a3 3 0 01-.621 4.72m-13.5 8.65h3.75a.75.75 0 00.75-.75V13.5a.75.75 0 00-.75-.75H6.75a.75.75 0 00-.75.75v3.75c0 .415.336.75.75.75z" />
+          </svg>
+        </div>
+        <span class="text-lg font-bold text-gray-900">BuscaBusca</span>
+      </div>
+
+      <div class="flex items-center gap-4">
+        <div class="text-right hidden sm:block">
+          <p id="userNome" class="text-sm font-medium text-gray-800"></p>
+          <p id="userEmail" class="text-xs text-gray-500"></p>
+        </div>
+        <button onclick="logout()"
+          class="flex items-center gap-1.5 text-sm text-gray-600 hover:text-red-600 transition font-medium px-3 py-1.5 rounded-lg hover:bg-red-50">
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6a2.25 2.25 0 00-2.25 2.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15M12 9l-3 3m0 0l3 3m-3-3h12.75" />
+          </svg>
+          Sair
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Conteúdo -->
+  <main class="max-w-5xl mx-auto px-4 sm:px-6 py-8">
+
+    <!-- Boas-vindas -->
+    <div class="mb-8">
+      <h1 class="text-2xl font-bold text-gray-900">Painel do Lojista</h1>
+      <p class="text-gray-500 mt-1">Gerencie seus registros de lojistas.</p>
+    </div>
+
+    <!-- Cards de resumo -->
+    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8">
+      <div class="bg-white rounded-xl border border-gray-200 p-5">
+        <p class="text-sm text-gray-500 mb-1">Total de registros</p>
+        <p id="totalRegistros" class="text-3xl font-bold text-indigo-600">—</p>
+      </div>
+      <div class="bg-white rounded-xl border border-gray-200 p-5">
+        <p class="text-sm text-gray-500 mb-1">Token expira em</p>
+        <p id="tokenExpiry" class="text-sm font-medium text-gray-700 mt-2">—</p>
+      </div>
+      <div class="bg-white rounded-xl border border-gray-200 p-5">
+        <p class="text-sm text-gray-500 mb-1">API Base URL</p>
+        <p class="text-sm font-mono text-gray-700 mt-2 break-all" id="apiBaseUrl">—</p>
+      </div>
+    </div>
+
+    <!-- Tabela de registros -->
+    <div class="bg-white rounded-xl border border-gray-200 overflow-hidden">
+      <div class="px-5 py-4 border-b border-gray-100 flex items-center justify-between">
+        <h2 class="font-semibold text-gray-800">Registros de Lojistas</h2>
+        <button onclick="loadRegistros()"
+          class="text-sm text-indigo-600 hover:text-indigo-800 font-medium flex items-center gap-1 transition">
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182m0-4.991v4.99" />
+          </svg>
+          Atualizar
+        </button>
+      </div>
+
+      <div id="tableBody">
+        <div class="flex items-center justify-center py-12 text-gray-400">
+          <svg class="animate-spin w-5 h-5 mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 22 6.477 22 12h-4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+          </svg>
+          Carregando...
+        </div>
+      </div>
+    </div>
+
+    <!-- Endpoints da API -->
+    <div class="mt-8 bg-white rounded-xl border border-gray-200 p-5">
+      <h2 class="font-semibold text-gray-800 mb-4">Endpoints da API</h2>
+      <div class="space-y-2 text-sm">
+        <div class="flex items-center gap-3">
+          <span class="w-16 text-center py-0.5 rounded text-xs font-semibold bg-green-100 text-green-700">POST</span>
+          <code class="text-gray-700">/login</code>
+          <span class="text-gray-400">— Autenticar</span>
+        </div>
+        <div class="flex items-center gap-3">
+          <span class="w-16 text-center py-0.5 rounded text-xs font-semibold bg-green-100 text-green-700">POST</span>
+          <code class="text-gray-700">/register</code>
+          <span class="text-gray-400">— Criar conta</span>
+        </div>
+        <div class="flex items-center gap-3">
+          <span class="w-16 text-center py-0.5 rounded text-xs font-semibold bg-green-100 text-green-700">POST</span>
+          <code class="text-gray-700">/logout</code>
+          <span class="text-gray-400">— Encerrar sessão</span>
+        </div>
+        <div class="flex items-center gap-3">
+          <span class="w-16 text-center py-0.5 rounded text-xs font-semibold bg-green-100 text-green-700">POST</span>
+          <code class="text-gray-700">/forgot-password</code>
+          <span class="text-gray-400">— Recuperar senha (mock)</span>
+        </div>
+        <div class="flex items-center gap-3">
+          <span class="w-16 text-center py-0.5 rounded text-xs font-semibold bg-green-100 text-green-700">POST</span>
+          <code class="text-gray-700">/reset-password</code>
+          <span class="text-gray-400">— Redefinir senha</span>
+        </div>
+        <div class="flex items-center gap-3">
+          <span class="w-16 text-center py-0.5 rounded text-xs font-semibold bg-blue-100 text-blue-700">GET</span>
+          <code class="text-gray-700">/registros</code>
+          <span class="text-gray-400">— Listar lojistas</span>
+        </div>
+        <div class="flex items-center gap-3">
+          <span class="w-16 text-center py-0.5 rounded text-xs font-semibold bg-green-100 text-green-700">POST</span>
+          <code class="text-gray-700">/registros</code>
+          <span class="text-gray-400">— Criar lojista</span>
+        </div>
+        <div class="flex items-center gap-3">
+          <span class="w-16 text-center py-0.5 rounded text-xs font-semibold bg-yellow-100 text-yellow-700">PUT</span>
+          <code class="text-gray-700">/registros/{id}</code>
+          <span class="text-gray-400">— Atualizar lojista</span>
+        </div>
+        <div class="flex items-center gap-3">
+          <span class="w-16 text-center py-0.5 rounded text-xs font-semibold bg-red-100 text-red-700">DELETE</span>
+          <code class="text-gray-700">/registros/{id}</code>
+          <span class="text-gray-400">— Remover lojista</span>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    const token   = sessionStorage.getItem('bb_token');
+    const nome    = sessionStorage.getItem('bb_nome')  || '';
+    const email   = sessionStorage.getItem('bb_email') || '';
+
+    if (!token) {
+      window.location.href = '/login.html';
+    }
+
+    document.getElementById('userNome').textContent  = nome || email;
+    document.getElementById('userEmail').textContent = email;
+    document.getElementById('apiBaseUrl').textContent = window.location.origin;
+
+    // Token expiry (stored on login)
+    const expiry = sessionStorage.getItem('bb_token_expiry');
+    if (expiry) {
+      document.getElementById('tokenExpiry').textContent = expiry;
+    }
+
+    async function loadRegistros() {
+      const body = document.getElementById('tableBody');
+      body.innerHTML = `<div class="flex items-center justify-center py-12 text-gray-400"><svg class="animate-spin w-5 h-5 mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 22 6.477 22 12h-4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>Carregando...</div>`;
+
+      try {
+        const res  = await fetch('/registros', {
+          headers: { 'Authorization': 'Bearer ' + token },
+        });
+        const data = await res.json();
+
+        if (!data.success) {
+          if (res.status === 401) {
+            sessionStorage.clear();
+            window.location.href = '/login.html';
+            return;
+          }
+          body.innerHTML = `<div class="px-5 py-8 text-center text-sm text-red-600">${data.message}</div>`;
+          return;
+        }
+
+        const registros = data.data || [];
+        document.getElementById('totalRegistros').textContent = registros.length;
+
+        if (registros.length === 0) {
+          body.innerHTML = `<div class="px-5 py-12 text-center text-sm text-gray-400">Nenhum registro encontrado.<br>Use a API ou o Postman para criar lojistas.</div>`;
+          return;
+        }
+
+        const rows = registros.map(r => `
+          <tr class="border-t border-gray-100 hover:bg-gray-50 transition">
+            <td class="px-5 py-3 text-sm text-gray-600">${r.id}</td>
+            <td class="px-5 py-3 text-sm font-medium text-gray-800">${r.razao_social || r.resp_nome || '—'}</td>
+            <td class="px-5 py-3 text-sm text-gray-600">${r.nome_fantasia || '—'}</td>
+            <td class="px-5 py-3"><span class="px-2 py-0.5 rounded text-xs font-semibold ${r.tipo_pessoa === 'PJ' ? 'bg-blue-100 text-blue-700' : 'bg-purple-100 text-purple-700'}">${r.tipo_pessoa || '—'}</span></td>
+            <td class="px-5 py-3 text-sm text-gray-600">${r.resp_email || '—'}</td>
+          </tr>
+        `).join('');
+
+        body.innerHTML = `
+          <div class="overflow-x-auto">
+            <table class="w-full">
+              <thead>
+                <tr class="text-left text-xs font-medium text-gray-500 uppercase tracking-wide bg-gray-50">
+                  <th class="px-5 py-3">ID</th>
+                  <th class="px-5 py-3">Razão Social / Nome</th>
+                  <th class="px-5 py-3">Nome Fantasia</th>
+                  <th class="px-5 py-3">Tipo</th>
+                  <th class="px-5 py-3">E-mail Responsável</th>
+                </tr>
+              </thead>
+              <tbody>${rows}</tbody>
+            </table>
+          </div>`;
+      } catch {
+        body.innerHTML = `<div class="px-5 py-8 text-center text-sm text-red-600">Erro de conexão. O servidor está em execução?</div>`;
+      }
+    }
+
+    async function logout() {
+      try {
+        await fetch('/logout', {
+          method: 'POST',
+          headers: { 'Authorization': 'Bearer ' + token },
+        });
+      } finally {
+        sessionStorage.clear();
+        window.location.href = '/login.html';
+      }
+    }
+
+    loadRegistros();
+  </script>
+</body>
+</html>

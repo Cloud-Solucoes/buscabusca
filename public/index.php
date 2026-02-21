@@ -6,6 +6,9 @@
  * Rotas:
  *   POST   /login               → AuthService::login
  *   POST   /logout              → AuthService::logout
+ *   POST   /register            → AuthService::register
+ *   POST   /forgot-password     → AuthService::forgotPassword
+ *   POST   /reset-password      → AuthService::resetPassword
  *   GET    /registros           → RegistroService::listar
  *   POST   /registros           → RegistroService::criar
  *   PUT    /registros/{id}      → RegistroService::atualizar
@@ -156,6 +159,78 @@ if ($method === 'POST' && $uri === '/logout') {
     $result = $authService->logout($token);
 
     $status = $result['success'] ? 200 : 401;
+    jsonResponse($result, $status);
+}
+
+// ---------------------------------------------------------------------------
+// POST /register
+// ---------------------------------------------------------------------------
+if ($method === 'POST' && $uri === '/register') {
+    $body = getRequestBody();
+
+    $nome  = trim($body['nome']  ?? '');
+    $email = trim($body['email'] ?? '');
+    $senha = $body['senha'] ?? '';
+
+    if (empty($nome) || empty($email) || empty($senha)) {
+        jsonResponse(['success' => false, 'message' => 'nome, email e senha são obrigatórios'], 400);
+    }
+
+    if (strlen($senha) < 6) {
+        jsonResponse(['success' => false, 'message' => 'A senha deve ter no mínimo 6 caracteres'], 400);
+    }
+
+    $authService = new AuthService;
+    $result = $authService->register($nome, $email, $senha);
+
+    if (!$result['success']) {
+        $isValidation = $result['_validation_error'] ?? false;
+        unset($result['_validation_error']);
+        $status = $isValidation ? 422 : 500;
+        jsonResponse($result, $status);
+    }
+
+    jsonResponse($result, 201);
+}
+
+// ---------------------------------------------------------------------------
+// POST /forgot-password
+// ---------------------------------------------------------------------------
+if ($method === 'POST' && $uri === '/forgot-password') {
+    $body  = getRequestBody();
+    $email = trim($body['email'] ?? '');
+
+    if (empty($email)) {
+        jsonResponse(['success' => false, 'message' => 'email é obrigatório'], 400);
+    }
+
+    $authService = new AuthService;
+    $result = $authService->forgotPassword($email);
+
+    $status = $result['success'] ? 200 : 500;
+    jsonResponse($result, $status);
+}
+
+// ---------------------------------------------------------------------------
+// POST /reset-password
+// ---------------------------------------------------------------------------
+if ($method === 'POST' && $uri === '/reset-password') {
+    $body      = getRequestBody();
+    $token     = trim($body['token']      ?? '');
+    $novaSenha = $body['nova_senha'] ?? '';
+
+    if (empty($token) || empty($novaSenha)) {
+        jsonResponse(['success' => false, 'message' => 'token e nova_senha são obrigatórios'], 400);
+    }
+
+    if (strlen($novaSenha) < 6) {
+        jsonResponse(['success' => false, 'message' => 'A senha deve ter no mínimo 6 caracteres'], 400);
+    }
+
+    $authService = new AuthService;
+    $result = $authService->resetPassword($token, $novaSenha);
+
+    $status = $result['success'] ? 200 : 400;
     jsonResponse($result, $status);
 }
 
