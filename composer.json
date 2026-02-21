@@ -2,6 +2,7 @@
     "name": "buscabusca/api",
     "description": "BuscaBusca API REST - Teste Técnico Adianti + SQLite",
     "type": "project",
+    "license": "proprietary",
     "require": {
         "php": ">=8.0",
         "plenatech/adianti_framework": "^8.2"
