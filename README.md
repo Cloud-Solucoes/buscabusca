@@ -316,16 +316,19 @@ ALLOWED_ORIGINS=https://meusite.com /usr/bin/php8.3 -S 0.0.0.0:8090 -t public/
 
 ---
 
-## Verificação de Segurança
+## Testes
 
-Para rodar o analisador automatizado de vulnerabilidades OWASP:
+Consulte o **[MANUAL_DE_TESTES.md](MANUAL_DE_TESTES.md)** para o guia completo com 34 cenários de teste (funcionais + segurança OWASP), comandos cURL prontos e critérios de aceite.
+
+**Resumo rápido:**
 
 ```bash
-# Com o servidor rodando
+# Testes funcionais — importe no Postman:
+buscabusca.postman_collection.json
+
+# Testes de segurança OWASP automatizados (45 checks):
 php security_analyzer.php http://localhost:8090
 ```
-
-45 verificações cobrindo A01, A02, A04, A05, A07, A08 e A09.
 
 ---
 
