@@ -696,3 +696,98 @@ Resultado: 45/45 verificações passaram (100%)
 ---
 
 *Última atualização: 2026-02-21 — Fase 8 security analyzer concluída*
+
+---
+
+## Seção 12 — Fase 9: Sistema de Autenticação e Frontend
+
+### 12.1 Contexto
+
+Após a conclusão do hardening OWASP, foi solicitada a implementação de um sistema de autenticação completo estilo Laravel Breeze, com:
+
+- Cadastro de usuário (`register`) com login automático após criação
+- Recuperação de senha via token mock (sem SMTP — token retornado na resposta da API)
+- Redefinição de senha via token
+- Frontend com Tailwind CSS via CDN, eye icon nos campos de senha
+
+### 12.2 Decisões Técnicas
+
+| Decisão | Escolha | Motivo |
+|---------|---------|--------|
+| CSS framework | Tailwind CSS (CDN Play) | Sem necessidade de build step; ideal para protótipos e avaliação técnica |
+| Token de reset | `bin2hex(random_bytes(32))`, 1 hora | Mesmo padrão do token de sessão — criptograficamente seguro |
+| Forgot password | Mock (token retornado na resposta) | Sem infraestrutura SMTP; permite teste imediato do fluxo completo |
+| Auto-login | Sim, após `/register` — retorna token direto | Reduz fricção no onboarding |
+| Aprovação de conta | Não implementada | Requisito explicitamente descartado |
+| Armazenamento do token | `sessionStorage` | Mais seguro que `localStorage` (limpo ao fechar a aba) |
+| Redirecionamento | `window.location.href` para `dashboard.html` | SPA simples sem roteador |
+
+### 12.3 Arquivos Modificados / Criados
+
+#### Backend
+
+| Arquivo | Ação | Mudança |
+|---------|------|---------|
+| `database/migrate_auth.php` | CRIADO | Adiciona `nome TEXT`, `reset_token TEXT`, `reset_token_expiry TEXT` em `usuarios` (idempotente) |
+| `app/model/Usuario.php` | MODIFICADO | + `generateResetToken()`, `findByResetToken()`, `clearResetToken()` |
+| `app/service/AuthService.php` | MODIFICADO | + `register()`, `forgotPassword()`, `resetPassword()`; login passa `nome` na resposta |
+| `public/index.php` | MODIFICADO | + rotas `POST /register`, `POST /forgot-password`, `POST /reset-password` |
+
+#### Frontend
+
+| Arquivo | Descrição |
+|---------|-----------|
+| `public/login.html` | E-mail + senha com eye toggle; redireciona ao dashboard; link para register e forgot-password |
+| `public/register.html` | Nome + e-mail + 2x senha (eye toggle em ambas); auto-login após cadastro |
+| `public/forgot-password.html` | Campo e-mail → exibe reset_token mock com botão copiar; link direto para reset-password |
+| `public/reset-password.html` | Token pré-preenchido via `?token=...`; nova senha + confirmar (eye toggle); tela de sucesso inline |
+| `public/dashboard.html` | Header com nome/email + logout; cards de resumo; tabela de registros via `GET /registros`; lista de endpoints |
+
+### 12.4 Novos Endpoints da API
+
+| Método | Rota | Auth | Descrição |
+|--------|------|------|-----------|
+| `POST` | `/register` | Não | Cria conta, retorna token (auto-login). Campos: `nome`, `email`, `senha` (mín. 6 chars) |
+| `POST` | `/forgot-password` | Não | Gera `reset_token` (mock). Campo: `email`. Não revela se e-mail existe |
+| `POST` | `/reset-password` | Não | Redefine senha com token. Campos: `token`, `nova_senha` (mín. 6 chars) |
+
+### 12.5 Fluxo de Recuperação de Senha (Mock)
+
+```
+[forgot-password.html]
+  → POST /forgot-password {email}
+  ← {success: true, data: {reset_token: "abc..."}}
+  → exibe token na tela + link para reset-password.html?token=abc...
+
+[reset-password.html?token=abc...]
+  → token pré-preenchido no campo
+  → POST /reset-password {token, nova_senha}
+  ← {success: true}
+  → tela de sucesso → link para login.html
+```
+
+### 12.6 Validações Implementadas
+
+| Campo | Regra |
+|-------|-------|
+| `nome` | Obrigatório no register |
+| `email` | Obrigatório; unicidade verificada no register |
+| `senha` | Mínimo 6 caracteres (validado no backend e no frontend via `minlength`) |
+| Senhas iguais | Verificado no frontend (confirmar senha) |
+| `reset_token` | Expira em 1 hora; uso único (limpo após reset bem-sucedido) |
+
+### 12.7 Atualização da Linha do Tempo
+
+| Data/Hora | Evento |
+|-----------|--------|
+| 2026-02-21 (manhã) | Entrega da implementação funcional v1.0 |
+| 2026-02-21 (tarde) | Hardening OWASP Top 10 2021 — 45/45 |
+| 2026-02-21 (tarde) | security_analyzer.php — 45 checks automatizados |
+| 2026-02-21 (noite) | Sistema de autenticação completo (Fase 9) |
+| 2026-02-21 (noite) | Frontend Tailwind — 5 páginas (login, register, forgot, reset, dashboard) |
+| 2026-02-21 (noite) | Migration `migrate_auth.php` executada com sucesso |
+| 2026-02-21 (noite) | Commit: `85cce8b` — feat(auth) |
+
+---
+
+*Última atualização: 2026-02-21 — Fase 9 sistema de autenticação concluída*
