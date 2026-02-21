@@ -841,15 +841,36 @@ credentials.buscabusca = {
 | TC-009 | Login | Credenciais válidas → dashboard com token |
 | TC-010 | Login | Sessão ativa redireciona de login para dashboard |
 
-### 13.5 Resultado
+### 13.5 Iterações do Desenvolvimento
+
+Os testes foram refinados em três iterações para chegar ao formato final:
+
+| Iteração | O que mudou | Resultado | Duração |
+|----------|------------|-----------|---------|
+| 1ª | Testes básicos sem vídeo | 9/10 — TC-005 falhava | ~32s |
+| 2ª | Gravação de vídeo + typing instantâneo | 10/10 | ~62s |
+| 3ª | Digitação humana + highlight de campos + menos lag | 10/10 | ~83s |
+
+**Correção TC-005:** Inicialmente falhou porque o TC-004 deixa token no `sessionStorage`, fazendo `register.html` redirecionar ao dashboard antes do formulário carregar. Solução: função `gotoClean()` — navega para página neutra, limpa sessionStorage, depois navega ao destino.
+
+### 13.6 Abordagem Técnica Final
+
+**`humanType(selector, text)`** — digitação caractere a caractere com delay aleatório de 60–130ms, mais pausa de 180–380ms ao focar o campo. Resulta em 8–17 caracteres/segundo, ritmo realista para gravações de vídeo.
+
+**`injectHighlightStyles()`** — injeta CSS via `page.addStyleTag()` após cada navegação, adicionando glow índigo nos campos em foco e efeito scale nos botões clicados. Não modifica o código da aplicação.
+
+**`withRecording(page, videoPath, fn)`** — envolve cada caso em `recorder.start()` / `recorder.stop()` com bloco `finally`, garantindo que o vídeo é sempre salvo, mesmo em caso de falha.
+
+**Configuração do recorder:** libx264, 25fps, 1366×768, CRF 18, preset ultrafast.
+
+### 13.7 Resultado Final
 
 ```
-Total: 10 | ✅ 10 | ❌ 0 — Tempo: ~32s
+Total: 10 | ✅ 10 | ❌ 0 — Tempo: 83.37s
+Vídeos gerados: 10 MP4 (tc001 a tc010)
 ```
 
-**Correção durante desenvolvimento:** TC-005 inicialmente falhou porque o TC-004 deixa token no `sessionStorage`, fazendo register.html redirecionar ao dashboard antes do formulário carregar. Corrigido com limpeza explícita do `sessionStorage` via página neutra antes de navegar ao register.
-
-### 13.6 Como Executar
+### 13.8 Como Executar
 
 ```bash
 # Pré-requisito: servidor rodando
@@ -860,7 +881,9 @@ cd /var/www/html/claude
 node e2e/projetos/buscabusca/testes/auth.test.js
 ```
 
-### 13.7 Atualização da Linha do Tempo
+Documentação completa em: `/var/www/html/claude/e2e/projetos/buscabusca/README.md`
+
+### 13.9 Atualização da Linha do Tempo
 
 | Data/Hora | Evento |
 |-----------|--------|
@@ -868,8 +891,8 @@ node e2e/projetos/buscabusca/testes/auth.test.js
 | 2026-02-21 (tarde) | Hardening OWASP Top 10 2021 — 45/45 |
 | 2026-02-21 (tarde) | security_analyzer.php — 45 checks automatizados |
 | 2026-02-21 (noite) | Sistema de autenticação completo + frontend Tailwind |
-| 2026-02-21 (noite) | Testes E2E Puppeteer — Suite AUTH 10/10 |
+| 2026-02-21 (noite) | Testes E2E Puppeteer — Suite AUTH 10/10 (3 iterações) |
 
 ---
 
-*Última atualização: 2026-02-21 — Fase 10 testes E2E concluída*
+*Última atualização: 2026-02-21 — Fase 10 testes E2E concluída (com vídeo + digitação humana)*

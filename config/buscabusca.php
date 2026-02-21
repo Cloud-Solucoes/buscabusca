@@ -2,7 +2,7 @@
 return [
     'host'  => '',
     'port'  => '',
-    'name'  => '/var/www/html/buscabusca/database/buscabusca.db',
+    'name'  => dirname(__DIR__) . '/database/buscabusca.db',
     'user'  => '',
     'pass'  => '',
     'type'  => 'sqlite',
