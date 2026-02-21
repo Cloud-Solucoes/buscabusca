@@ -8,9 +8,9 @@
         "plenatech/adianti_framework": "^8.2"
     },
     "autoload": {
-        "psr-4": {
-            "App\\": "app/"
-        }
+        "classmap": [
+            "app/"
+        ]
     },
     "config": {
         "platform": {
