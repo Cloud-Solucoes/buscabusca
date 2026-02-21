@@ -791,3 +791,85 @@ Após a conclusão do hardening OWASP, foi solicitada a implementação de um si
 ---
 
 *Última atualização: 2026-02-21 — Fase 9 sistema de autenticação concluída*
+
+---
+
+## Seção 13 — Fase 10: Testes E2E com Puppeteer
+
+### 13.1 Contexto
+
+Seguindo o padrão definido em `/var/www/html/claude/INSTRUCOES.md`, foram criados testes end-to-end com Puppeteer para validar os fluxos de autenticação (register e login) via interface web.
+
+### 13.2 Estrutura Criada
+
+```
+/var/www/html/claude/e2e/projetos/buscabusca/
+├── testes/
+│   └── auth.test.js          # Suite AUTH — 10 casos (TC-001 a TC-010)
+├── resultados/
+│   └── AUTH - Register e Login-2026-02-21.json
+├── screenshots/              # Screenshots por caso (geradas em cada execução)
+└── README.md                 # Documentação completa da suite
+```
+
+### 13.3 Configuração Adicionada
+
+**`e2e/config.js`** — URLs e credenciais do projeto:
+
+```javascript
+baseUrls.buscabusca = {
+    local, api, login, register, forgotPassword, resetPassword, dashboard
+}
+credentials.buscabusca = {
+    email: 'admin@buscabusca.com',
+    password: '123456'
+}
+```
+
+### 13.4 Casos de Teste — Suite AUTH
+
+| ID | Categoria | Objetivo |
+|----|-----------|----------|
+| TC-001 | Register | Página carrega com formulário |
+| TC-002 | Register | Eye toggle alterna visibilidade da senha |
+| TC-003 | Register | Senhas divergentes bloqueiam envio |
+| TC-004 | Register | Dados válidos → auto-login → dashboard com token |
+| TC-005 | Register | E-mail duplicado exibe mensagem de erro |
+| TC-006 | Login | Página carrega com formulário |
+| TC-007 | Login | Eye toggle alterna visibilidade da senha |
+| TC-008 | Login | Credenciais inválidas exibem erro |
+| TC-009 | Login | Credenciais válidas → dashboard com token |
+| TC-010 | Login | Sessão ativa redireciona de login para dashboard |
+
+### 13.5 Resultado
+
+```
+Total: 10 | ✅ 10 | ❌ 0 — Tempo: ~32s
+```
+
+**Correção durante desenvolvimento:** TC-005 inicialmente falhou porque o TC-004 deixa token no `sessionStorage`, fazendo register.html redirecionar ao dashboard antes do formulário carregar. Corrigido com limpeza explícita do `sessionStorage` via página neutra antes de navegar ao register.
+
+### 13.6 Como Executar
+
+```bash
+# Pré-requisito: servidor rodando
+/usr/bin/php8.3 -S 0.0.0.0:8090 -t /var/www/html/buscabusca/public/
+
+# Executar testes
+cd /var/www/html/claude
+node e2e/projetos/buscabusca/testes/auth.test.js
+```
+
+### 13.7 Atualização da Linha do Tempo
+
+| Data/Hora | Evento |
+|-----------|--------|
+| 2026-02-21 (manhã) | Entrega da implementação funcional v1.0 |
+| 2026-02-21 (tarde) | Hardening OWASP Top 10 2021 — 45/45 |
+| 2026-02-21 (tarde) | security_analyzer.php — 45 checks automatizados |
+| 2026-02-21 (noite) | Sistema de autenticação completo + frontend Tailwind |
+| 2026-02-21 (noite) | Testes E2E Puppeteer — Suite AUTH 10/10 |
+
+---
+
+*Última atualização: 2026-02-21 — Fase 10 testes E2E concluída*
