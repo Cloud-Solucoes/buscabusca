@@ -140,15 +140,26 @@ O recurso `/registros` representa o cadastro de **Lojistas**, com formulário de
 
 ### 5.1 Abordagem do Framework
 
-**Decisão:** Usar **Adianti Framework puro** — ORM nativo (`TRecord`), conexão SQLite nativa, roteamento Adianti.
+**Decisão:** Usar o **ORM nativo do Adianti** (`TRecord`, `TTransaction`, `TRepository`, `TCriteria`, `TFilter`) com roteamento REST próprio em `public/index.php`.
 
-**Motivo:** O teste especifica Adianti. Usar o framework de forma completa demonstra domínio real da ferramenta ao avaliador.
+**Motivo:** O Adianti disponibiliza um padrão de REST via `AdiantiRecordService` + `rest.php`, mas esse padrão usa roteamento RPC (`?class=X&method=Y`) em vez de URLs baseadas em recurso (`/registros/{id}`). Adotar esse padrão comprometeria a arquitetura REST exigida pelo teste (verbos HTTP corretos, URLs semânticas, status codes adequados). A decisão foi manter o ORM nativo — que é o núcleo real do framework — e implementar o roteamento REST manualmente, demonstrando domínio do Adianti sem abrir mão dos princípios REST.
+
+**Uso do Adianti no projeto:**
+
+| Classe | Papel |
+|--------|-------|
+| `TRecord` | Base de todos os models (`Usuario`, `Lojista`) |
+| `TTransaction` | Controle de transações em todos os services |
+| `TRepository` | Queries com critérios em `listar()`, `exists()`, `findByEmail()`, `validateToken()` |
+| `TCriteria` | Agrupamento de filtros nas queries |
+| `TFilter` | Condições de busca (email, token, user_id, id) |
+| `TConnection` | Configuração da conexão SQLite via `config/buscabusca.php` |
 
 ### 5.2 Autenticação
 
-**Decisão:** Token simples gerado via `hash('sha256', ...)` armazenado em tabela `usuarios` no SQLite.
+**Decisão:** Token seguro gerado via `bin2hex(random_bytes(32))` armazenado na tabela `usuarios`, com expiração de 1 hora, lockout após 5 tentativas e revogação via logout.
 
-**Motivo:** O teste não exige JWT. Manter simples e funcional é mais adequado ao prazo.
+**Motivo:** O template Adianti usa `Firebase\JWT` (JWT com expiração de 3 horas, sem revogação). JWT não permite invalidação antes do vencimento — o logout não funcionaria. A abordagem com token em banco permite revogação imediata (`logoutToken()`), é mais simples de auditar e suficiente para o escopo do teste. O padrão Adianti foi analisado e descartado conscientemente em favor de maior segurança.
 
 ### 5.3 Estrutura de Tabelas SQLite
 
