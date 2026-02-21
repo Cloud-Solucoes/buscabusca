@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<database>
+    <name>buscabusca</name>
+    <type>sqlite</type>
+    <file>/var/www/html/buscabusca/database/buscabusca.db</file>
+</database>

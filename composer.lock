@@ -1,0 +1,83 @@
+{
+    "_readme": [
+        "This file locks the dependencies of your project to a known state",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
+        "This file is @generated automatically"
+    ],
+    "content-hash": "6bc7587ab20733ba960c4b96fbfedf95",
+    "packages": [
+        {
+            "name": "plenatech/adianti_framework",
+            "version": "8.2.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/plenatech/adianti_framework.git",
+                "reference": "a480bc3f92cdbcd4faf3ab28f44e3b8adf34027d"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/plenatech/adianti_framework/zipball/a480bc3f92cdbcd4faf3ab28f44e3b8adf34027d",
+                "reference": "a480bc3f92cdbcd4faf3ab28f44e3b8adf34027d",
+                "shasum": ""
+            },
+            "type": "library",
+            "extra": {
+                "license-url": "https://adiantiframework.com.br/license"
+            },
+            "autoload": {
+                "psr-4": {
+                    "Adianti\\": "framework\\lib\\adianti"
+                },
+                "classmap": [
+                    "framework/lib/adianti/base",
+                    "framework/lib/adianti/control",
+                    "framework/lib/adianti/core",
+                    "framework/lib/adianti/database",
+                    "framework/lib/adianti/http",
+                    "framework/lib/adianti/log",
+                    "framework/lib/adianti/registry",
+                    "framework/lib/adianti/service",
+                    "framework/lib/adianti/util",
+                    "framework/lib/adianti/validator",
+                    "framework/lib/adianti/widget/base",
+                    "framework/lib/adianti/widget/container",
+                    "framework/lib/adianti/widget/datagrid",
+                    "framework/lib/adianti/widget/dialog",
+                    "framework/lib/adianti/widget/form",
+                    "framework/lib/adianti/widget/menu",
+                    "framework/lib/adianti/widget/template",
+                    "framework/lib/adianti/widget/util",
+                    "framework/lib/adianti/widget/wrapper",
+                    "framework/lib/adianti/wrapper"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "proprietary"
+            ],
+            "authors": [
+                {
+                    "name": "Pablo Dall'Oglio"
+                }
+            ],
+            "description": "Adianti Framework",
+            "homepage": "https://adiantiframework.com.br/",
+            "support": {
+                "issues": "https://github.com/plenatech/adianti_framework/issues",
+                "source": "https://github.com/plenatech/adianti_framework/tree/8.2.0.1"
+            },
+            "time": "2025-08-12T21:46:51+00:00"
+        }
+    ],
+    "packages-dev": [],
+    "aliases": [],
+    "minimum-stability": "stable",
+    "stability-flags": {},
+    "prefer-stable": true,
+    "prefer-lowest": false,
+    "platform": {
+        "php": ">=8.1"
+    },
+    "platform-dev": {},
+    "plugin-api-version": "2.9.0"
+}
