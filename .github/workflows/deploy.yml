@@ -49,7 +49,7 @@ jobs:
         run: composer validate --strict
 
       - name: Check PSR-4 autoloading
-        run: composer dump-autoload --strict-psr
+        run: composer dump-autoload --optimize --strict-psr
 
       - name: PHP Syntax Check
         run: find app config -name "*.php" -print0 | xargs -0 -n1 php -l
