@@ -1,0 +1,16 @@
+{
+  "name": "buscabusca",
+  "version": "1.0.0",
+  "description": "API REST para cadastro de Lojistas, desenvolvida com **PHP 8.3**, **Adianti Framework 8.2** e banco de dados **SQLite**.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "devDependencies": {
+    "@playwright/test": "^1.58.2"
+  }
+}

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "6bc7587ab20733ba960c4b96fbfedf95",
+    "content-hash": "90be48776937fb4385b50d1a7787bf1f",
     "packages": [
         {
             "name": "plenatech/adianti_framework",
@@ -76,8 +76,11 @@
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {
-        "php": ">=8.1"
+        "php": ">=8.0"
     },
     "platform-dev": {},
+    "platform-overrides": {
+        "php": "8.0.10"
+    },
     "plugin-api-version": "2.9.0"
 }

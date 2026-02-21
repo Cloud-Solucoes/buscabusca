@@ -1,0 +1,95 @@
+name: Deploy to Locaweb
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    name: Deploy to Production
+    runs-on: ubuntu-latest
+
+    environment:
+      name: production
+      url: https://penseonline.com.br/demos/buscabusca
+
+    env:
+      SSH_OPTS: >-
+        -o HostKeyAlgorithms=+ssh-rsa
+        -o PubkeyAcceptedKeyTypes=+ssh-rsa
+        -o PubkeyAuthentication=no
+        -o PreferredAuthentications=password
+        -o StrictHostKeyChecking=no
+      SSHPASS: ${{ secrets.SSH_PASSWORD }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup PHP 8.0
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.0'
+          extensions: pdo_sqlite, mbstring
+          coverage: none
+
+      - name: Install Composer dependencies
+        run: composer install --no-dev --optimize-autoloader --no-interaction --prefer-dist
+
+      - name: Install sshpass
+        run: sudo apt-get install -y sshpass
+
+      - name: Test SSH connection
+        run: sshpass -e ssh $SSH_OPTS ${{ secrets.FTP_SSH_USERNAME }}@${{ secrets.IP_PROD }} "echo 'SSH OK'"
+
+      - name: Deploy via rsync
+        run: |
+          sshpass -e rsync -avz --delete \
+            -e "ssh $SSH_OPTS" \
+            --exclude='.git' \
+            --exclude='.github' \
+            --exclude='node_modules' \
+            --exclude='tests' \
+            --exclude='test-results' \
+            --exclude='playwright.config.js' \
+            --exclude='package.json' \
+            --exclude='package-lock.json' \
+            --exclude='Dockerfile' \
+            --exclude='deploy_locaweb.sh' \
+            --exclude='*.md' \
+            --exclude='*.txt' \
+            --exclude='*.postman_collection.json' \
+            --exclude='security_analyzer.php' \
+            --exclude='.gitignore' \
+            --exclude='.htaccess.locaweb' \
+            --exclude='public/.htaccess.locaweb' \
+            --exclude='database/buscabusca.db' \
+            ./ ${{ secrets.FTP_SSH_USERNAME }}@${{ secrets.IP_PROD }}:${{ secrets.DEPLOY_PATH }}/
+
+      - name: Configure Locaweb .htaccess
+        run: |
+          sshpass -e scp $SSH_OPTS \
+            .htaccess.locaweb \
+            ${{ secrets.FTP_SSH_USERNAME }}@${{ secrets.IP_PROD }}:${{ secrets.DEPLOY_PATH }}/.htaccess
+
+          sshpass -e scp $SSH_OPTS \
+            public/.htaccess.locaweb \
+            ${{ secrets.FTP_SSH_USERNAME }}@${{ secrets.IP_PROD }}:${{ secrets.DEPLOY_PATH }}/public/.htaccess
+
+      - name: Set permissions
+        run: |
+          sshpass -e ssh $SSH_OPTS ${{ secrets.FTP_SSH_USERNAME }}@${{ secrets.IP_PROD }} "
+            chmod 775 ${{ secrets.DEPLOY_PATH }}/database
+            chmod 664 ${{ secrets.DEPLOY_PATH }}/database/buscabusca.db 2>/dev/null || true
+          "
+
+      - name: Verify deploy
+        run: |
+          STATUS=$(curl -s -o /dev/null -w '%{http_code}' https://penseonline.com.br/demos/buscabusca/login.html)
+          echo "HTTP Status: $STATUS"
+          if [ "$STATUS" != "200" ]; then
+            echo "::warning::Deploy verification returned HTTP $STATUS"
+          else
+            echo "Deploy OK!"
+          fi

@@ -1,0 +1,23 @@
+##### LOCAWEB - NAO REMOVER #####
+AddHandler php80-script .php
+suPHP_ConfigPath /home/infosolutionwifi1/public_html/penseonline/demos/buscabusca/
+##### LOCAWEB - NAO REMOVER #####
+
+Options -Indexes
+
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteBase /demos/buscabusca/
+
+    # Handle Authorization Header
+    RewriteCond %{HTTP:Authorization} .
+    RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
+
+    # Se o arquivo existe na raiz, servir direto
+    RewriteCond %{REQUEST_FILENAME} -f [OR]
+    RewriteCond %{REQUEST_FILENAME} -d
+    RewriteRule ^ - [L]
+
+    # Tudo mais vai para o bridge index.php (serve static de public/ ou API)
+    RewriteRule ^(.*)$ index.php [QSA,L]
+</IfModule>

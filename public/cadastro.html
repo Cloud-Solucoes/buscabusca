@@ -1,0 +1,873 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BuscaBusca — Cadastro de Lojista</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="min-h-screen bg-gray-50">
+
+  <!-- Nav Menu -->
+  <nav class="bg-white border-b border-gray-200 shadow-sm">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6">
+      <div class="flex items-center justify-between h-16">
+        <div class="flex items-center gap-6">
+          <a href="dashboard.html" class="flex items-center gap-2">
+            <div class="inline-flex items-center justify-center w-9 h-9 bg-indigo-600 rounded-xl">
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-white" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 21v-7.5a.75.75 0 01.75-.75h3a.75.75 0 01.75.75V21m-4.5 0H2.36m11.14 0H18m0 0h3.64m-1.39 0V9.349m-16.5 11.65V9.35m0 0a3.001 3.001 0 003.75-.615A2.993 2.993 0 009.75 9.75c.896 0 1.7-.393 2.25-1.016a2.993 2.993 0 002.25 1.016c.896 0 1.7-.393 2.25-1.016a3.001 3.001 0 003.75.614m-16.5 0a3.004 3.004 0 01-.621-4.72L4.318 3.44A1.5 1.5 0 015.378 3h13.243a1.5 1.5 0 011.06.44l1.19 1.189a3 3 0 01-.621 4.72m-13.5 8.65h3.75a.75.75 0 00.75-.75V13.5a.75.75 0 00-.75-.75H6.75a.75.75 0 00-.75.75v3.75c0 .415.336.75.75.75z" />
+              </svg>
+            </div>
+            <span class="text-lg font-bold text-gray-900 hidden sm:inline">BuscaBusca</span>
+          </a>
+          <div class="hidden md:flex items-center gap-1">
+            <a href="dashboard.html" class="flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm font-medium text-gray-600 hover:text-gray-900 hover:bg-gray-100 transition">
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6A2.25 2.25 0 016 3.75h2.25A2.25 2.25 0 0110.5 6v2.25a2.25 2.25 0 01-2.25 2.25H6a2.25 2.25 0 01-2.25-2.25V6zM3.75 15.75A2.25 2.25 0 016 13.5h2.25a2.25 2.25 0 012.25 2.25V18a2.25 2.25 0 01-2.25 2.25H6A2.25 2.25 0 013.75 18v-2.25zM13.5 6a2.25 2.25 0 012.25-2.25H18A2.25 2.25 0 0120.25 6v2.25A2.25 2.25 0 0118 10.5h-2.25a2.25 2.25 0 01-2.25-2.25V6zM13.5 15.75a2.25 2.25 0 012.25-2.25H18a2.25 2.25 0 012.25 2.25V18A2.25 2.25 0 0118 20.25h-2.25A2.25 2.25 0 0113.5 18v-2.25z" /></svg>
+              Dashboard
+            </a>
+            <a href="cadastro.html" class="flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm font-medium bg-indigo-50 text-indigo-700">
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m3.75 9v6m3-3H9m1.5-12H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z" /></svg>
+              Cadastro
+            </a>
+            <a href="swagger.html" class="flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm font-medium text-gray-600 hover:text-gray-900 hover:bg-gray-100 transition">
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M17.25 6.75L22.5 12l-5.25 5.25m-10.5 0L1.5 12l5.25-5.25m7.5-3l-4.5 16.5" /></svg>
+              API Docs
+            </a>
+          </div>
+        </div>
+        <div class="flex items-center gap-3">
+          <div class="hidden sm:flex items-center gap-2.5">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8 text-gray-400" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M17.982 18.725A7.488 7.488 0 0012 15.75a7.488 7.488 0 00-5.982 2.975m11.963 0a9 9 0 10-11.963 0m11.963 0A8.966 8.966 0 0112 21a8.966 8.966 0 01-5.982-2.275M15 9.75a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
+            <div class="text-right">
+              <p id="userNome" class="text-sm font-medium text-gray-800"></p>
+              <p id="userEmail" class="text-xs text-gray-500"></p>
+            </div>
+          </div>
+          <button onclick="logout()" class="flex items-center gap-1.5 text-sm text-gray-600 hover:text-red-600 transition font-medium px-3 py-1.5 rounded-lg hover:bg-red-50">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6a2.25 2.25 0 00-2.25 2.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15M12 9l-3 3m0 0l3 3m-3-3h12.75" />
+            </svg>
+            Sair
+          </button>
+          <button class="md:hidden p-2 rounded-lg hover:bg-gray-100 transition" onclick="toggleMobileMenu()">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-gray-600" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+            </svg>
+          </button>
+        </div>
+      </div>
+      <div id="mobileMenu" class="md:hidden hidden border-t border-gray-100 py-2 pb-3">
+        <a href="dashboard.html" class="flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium text-gray-600 hover:bg-gray-100">
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6A2.25 2.25 0 016 3.75h2.25A2.25 2.25 0 0110.5 6v2.25a2.25 2.25 0 01-2.25 2.25H6a2.25 2.25 0 01-2.25-2.25V6zM3.75 15.75A2.25 2.25 0 016 13.5h2.25a2.25 2.25 0 012.25 2.25V18a2.25 2.25 0 01-2.25 2.25H6A2.25 2.25 0 013.75 18v-2.25zM13.5 6a2.25 2.25 0 012.25-2.25H18A2.25 2.25 0 0120.25 6v2.25A2.25 2.25 0 0118 10.5h-2.25a2.25 2.25 0 01-2.25-2.25V6zM13.5 15.75a2.25 2.25 0 012.25-2.25H18a2.25 2.25 0 012.25 2.25V18A2.25 2.25 0 0118 20.25h-2.25A2.25 2.25 0 0113.5 18v-2.25z" /></svg>
+          Dashboard
+        </a>
+        <a href="cadastro.html" class="flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium bg-indigo-50 text-indigo-700">
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m3.75 9v6m3-3H9m1.5-12H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z" /></svg>
+          Cadastro
+        </a>
+        <a href="swagger.html" class="flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium text-gray-600 hover:bg-gray-100">
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M17.25 6.75L22.5 12l-5.25 5.25m-10.5 0L1.5 12l5.25-5.25m7.5-3l-4.5 16.5" /></svg>
+          API Docs
+        </a>
+      </div>
+    </div>
+  </nav>
+
+  <main class="max-w-6xl mx-auto px-4 sm:px-6 py-8">
+
+    <!-- Page title -->
+    <div class="mb-6">
+      <h1 id="pageTitle" class="text-2xl font-bold text-gray-900">Novo Cadastro de Lojista</h1>
+      <p class="text-gray-500 mt-1">Preencha os dados em 6 etapas para registrar um lojista.</p>
+    </div>
+
+    <!-- Alert -->
+    <div id="alertBox" class="hidden mb-6 p-3 rounded-lg text-sm font-medium border flex items-center gap-2"></div>
+
+    <!-- Stepper -->
+    <div class="mb-8">
+      <div class="flex items-center justify-between mb-2">
+        <span id="stepLabel" class="text-sm font-medium text-gray-600">Etapa 1 de 6</span>
+        <span id="stepPercent" class="text-sm font-medium text-indigo-600">0%</span>
+      </div>
+      <div class="w-full bg-gray-200 rounded-full h-2">
+        <div id="progressBar" class="bg-indigo-600 h-2 rounded-full transition-all duration-300" style="width: 0%"></div>
+      </div>
+      <div class="grid grid-cols-6 gap-1 mt-3">
+        <button onclick="goToStep(1)" class="step-btn text-center py-2 rounded-lg text-xs font-medium transition" data-step="1">1. Identificacao</button>
+        <button onclick="goToStep(2)" class="step-btn text-center py-2 rounded-lg text-xs font-medium transition" data-step="2">2. Segmento</button>
+        <button onclick="goToStep(3)" class="step-btn text-center py-2 rounded-lg text-xs font-medium transition" data-step="3">3. Estrutura</button>
+        <button onclick="goToStep(4)" class="step-btn text-center py-2 rounded-lg text-xs font-medium transition" data-step="4">4. Financeiro</button>
+        <button onclick="goToStep(5)" class="step-btn text-center py-2 rounded-lg text-xs font-medium transition" data-step="5">5. Estrategia</button>
+        <button onclick="goToStep(6)" class="step-btn text-center py-2 rounded-lg text-xs font-medium transition" data-step="6">6. Aceite</button>
+      </div>
+    </div>
+
+    <!-- Form -->
+    <form id="wizardForm" class="bg-white rounded-xl border border-gray-200 p-6 sm:p-8">
+
+      <!-- Step 1: Identificação -->
+      <div class="step-content" data-step="1">
+        <h2 class="text-lg font-semibold text-gray-900 mb-6">Identificacao</h2>
+
+        <div class="space-y-5">
+          <!-- tipo_pessoa -->
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-2">Tipo de Pessoa <span class="text-red-500">*</span></label>
+            <div class="flex gap-4">
+              <label class="flex items-center gap-2 cursor-pointer">
+                <input type="radio" name="tipo_pessoa" value="PJ" class="w-4 h-4 text-indigo-600 focus:ring-indigo-500" checked>
+                <span class="text-sm text-gray-700">Pessoa Juridica (PJ)</span>
+              </label>
+              <label class="flex items-center gap-2 cursor-pointer">
+                <input type="radio" name="tipo_pessoa" value="PF" class="w-4 h-4 text-indigo-600 focus:ring-indigo-500">
+                <span class="text-sm text-gray-700">Pessoa Fisica (PF)</span>
+              </label>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-1">CNPJ</label>
+              <input type="text" id="cnpj" name="cnpj" placeholder="00.000.000/0000-00" maxlength="18"
+                class="w-full px-4 py-2.5 rounded-lg border border-gray-300 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition">
+              <span id="cnpj_feedback" class="text-xs mt-1 hidden"></span>
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-1">Inscricao Estadual</label>
+              <input type="text" name="inscricao_estadual" placeholder="Inscricao Estadual"
+                class="w-full px-4 py-2.5 rounded-lg border border-gray-300 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition">
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-1">Razao Social</label>
+              <input type="text" name="razao_social" placeholder="Razao Social da empresa"
+                class="w-full px-4 py-2.5 rounded-lg border border-gray-300 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition">
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-1">Nome Fantasia</label>
+              <input type="text" name="nome_fantasia" placeholder="Nome Fantasia"
+                class="w-full px-4 py-2.5 rounded-lg border border-gray-300 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition">
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-1">Data de Abertura</label>
+              <input type="date" name="data_abertura"
+                class="w-full px-4 py-2.5 rounded-lg border border-gray-300 text-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition">
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-1">Capital Social</label>
+              <input type="text" id="capital_social" name="capital_social" placeholder="R$ 0,00" maxlength="20"
+                class="w-full px-4 py-2.5 rounded-lg border border-gray-300 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition">
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-1">Regime Tributario</label>
+              <select name="regime_tributario"
+                class="w-full px-4 py-2.5 rounded-lg border border-gray-300 text-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition">
+                <option value="">Selecione...</option>
+                <option value="Simples Nacional">Simples Nacional</option>
+                <option value="Lucro Presumido">Lucro Presumido</option>
+                <option value="Lucro Real">Lucro Real</option>
+                <option value="MEI">MEI</option>
+              </select>
+            </div>
+          </div>
+
+          <hr class="border-gray-200">
+          <h3 class="text-sm font-semibold text-gray-700 uppercase tracking-wide">Responsavel Legal</h3>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-1">Nome do Responsavel <span class="text-red-500">*</span></label>
+              <input type="text" name="resp_nome" placeholder="Nome completo" required
+                class="w-full px-4 py-2.5 rounded-lg border border-gray-300 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition">
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-1">CPF do Responsavel</label>
+              <input type="text" id="resp_cpf" name="resp_cpf" placeholder="000.000.000-00" maxlength="14"
+                class="w-full px-4 py-2.5 rounded-lg border border-gray-300 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition">
+              <span id="cpf_feedback" class="text-xs mt-1 hidden"></span>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-1">E-mail do Responsavel <span class="text-red-500">*</span></label>
+              <input type="email" name="resp_email" placeholder="email@exemplo.com" required
+                class="w-full px-4 py-2.5 rounded-lg border border-gray-300 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition">
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-1">Telefone do Responsavel</label>
+              <input type="text" id="resp_telefone" name="resp_telefone" placeholder="(00) 00000-0000" maxlength="15"
+                class="w-full px-4 py-2.5 rounded-lg border border-gray-300 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition">
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Step 2: Segmento & Produtos -->
+      <div class="step-content hidden" data-step="2">
+        <h2 class="text-lg font-semibold text-gray-900 mb-6">Segmento e Produtos</h2>
+
+        <div class="space-y-5">
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-1">Segmento</label>
+              <select name="segmento"
+                class="w-full px-4 py-2.5 rounded-lg border border-gray-300 text-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition">
+                <option value="">Selecione...</option>
+                <option value="Eletronicos">Eletronicos</option>
+                <option value="Moda">Moda</option>
+                <option value="Alimentos">Alimentos</option>
+                <option value="Saude e Beleza">Saude e Beleza</option>
+                <option value="Casa e Decoracao">Casa e Decoracao</option>
+                <option value="Esportes">Esportes</option>
+                <option value="Automotivo">Automotivo</option>
+                <option value="Brinquedos">Brinquedos</option>
+                <option value="Livros">Livros</option>
+                <option value="Outros">Outros</option>
+              </select>
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-1">Origem dos Produtos</label>
+              <select name="origem_produtos"
+                class="w-full px-4 py-2.5 rounded-lg border border-gray-300 text-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition">
+                <option value="">Selecione...</option>
+                <option value="Nacional">Nacional</option>
+                <option value="Importado">Importado</option>
+                <option value="Ambos">Ambos</option>
+              </select>
+            </div>
+          </div>
+
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">Descricao dos Produtos</label>
+            <textarea name="descricao_produtos" rows="4" placeholder="Descreva os principais produtos que voce vende..."
+              class="w-full px-4 py-2.5 rounded-lg border border-gray-300 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition resize-y"></textarea>
+          </div>
+
+          <div class="flex items-center gap-3">
+            <label class="relative inline-flex items-center cursor-pointer">
+              <input type="checkbox" name="produtos_restritos" class="sr-only peer">
+              <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-indigo-500 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-indigo-600"></div>
+            </label>
+            <span class="text-sm text-gray-700">Comercializa produtos restritos (medicamentos, quimicos, etc.)</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Step 3: Estrutura & Logística -->
+      <div class="step-content hidden" data-step="3">
+        <h2 class="text-lg font-semibold text-gray-900 mb-6">Estrutura e Logistica</h2>
+
+        <div class="space-y-5">
+          <div class="flex items-center gap-6">
+            <div class="flex items-center gap-3">
+              <label class="relative inline-flex items-center cursor-pointer">
+                <input type="checkbox" name="possui_loja" class="sr-only peer">
+                <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-indigo-500 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-indigo-600"></div>
+              </label>
+              <span class="text-sm text-gray-700">Possui loja fisica</span>
+            </div>
+            <div class="flex items-center gap-3">
+              <label class="relative inline-flex items-center cursor-pointer">
+                <input type="checkbox" name="possui_estoque" class="sr-only peer">
+                <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-indigo-500 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-indigo-600"></div>
+              </label>
+              <span class="text-sm text-gray-700">Possui estoque proprio</span>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-1">CEP do Estoque</label>
+              <input type="text" id="estoque_cep" name="estoque_cep" placeholder="00000-000" maxlength="9"
+                class="w-full px-4 py-2.5 rounded-lg border border-gray-300 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition">
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-1">Logistica de Envio</label>
+              <select name="logistica_envio"
+                class="w-full px-4 py-2.5 rounded-lg border border-gray-300 text-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition">
+                <option value="">Selecione...</option>
+                <option value="Propria">Propria</option>
+                <option value="Correios">Correios</option>
+                <option value="Transportadora">Transportadora</option>
+                <option value="Marketplace">Marketplace</option>
+              </select>
+            </div>
+          </div>
+
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">Endereco do Estoque</label>
+            <input type="text" name="estoque_endereco" placeholder="Endereco completo do estoque"
+              class="w-full px-4 py-2.5 rounded-lg border border-gray-300 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition">
+          </div>
+        </div>
+      </div>
+
+      <!-- Step 4: Financeiro -->
+      <div class="step-content hidden" data-step="4">
+        <h2 class="text-lg font-semibold text-gray-900 mb-6">Dados Financeiros</h2>
+
+        <div class="space-y-5">
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">Emissao de Nota Fiscal</label>
+            <select name="emissao_nf"
+              class="w-full px-4 py-2.5 rounded-lg border border-gray-300 text-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition">
+              <option value="">Selecione...</option>
+              <option value="Automatica">Automatica</option>
+              <option value="Manual">Manual</option>
+              <option value="Nao emite">Nao emite</option>
+            </select>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-1">Banco</label>
+              <input type="text" name="banco" placeholder="Nome do banco"
+                class="w-full px-4 py-2.5 rounded-lg border border-gray-300 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition">
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-1">Tipo de Conta</label>
+              <select name="tipo_conta"
+                class="w-full px-4 py-2.5 rounded-lg border border-gray-300 text-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition">
+                <option value="">Selecione...</option>
+                <option value="Corrente">Corrente</option>
+                <option value="Poupanca">Poupanca</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-1">Agencia</label>
+              <input type="text" name="agencia" placeholder="0000"
+                class="w-full px-4 py-2.5 rounded-lg border border-gray-300 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition">
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-1">Conta</label>
+              <input type="text" name="conta" placeholder="00000-0"
+                class="w-full px-4 py-2.5 rounded-lg border border-gray-300 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition">
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Step 5: Estratégia -->
+      <div class="step-content hidden" data-step="5">
+        <h2 class="text-lg font-semibold text-gray-900 mb-6">Estrategia de Vendas</h2>
+
+        <div class="space-y-5">
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">Volume Estimado de Pedidos/Mes</label>
+            <select name="volume_pedidos"
+              class="w-full px-4 py-2.5 rounded-lg border border-gray-300 text-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition">
+              <option value="">Selecione...</option>
+              <option value="Ate 50">Ate 50 pedidos</option>
+              <option value="50-200">50 a 200 pedidos</option>
+              <option value="200-500">200 a 500 pedidos</option>
+              <option value="500+">Mais de 500 pedidos</option>
+            </select>
+          </div>
+
+          <div class="bg-indigo-50 border border-indigo-200 rounded-xl p-5">
+            <div class="flex items-start gap-3">
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-indigo-600 mt-0.5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M11.25 11.25l.041-.02a.75.75 0 011.063.852l-.708 2.836a.75.75 0 001.063.853l.041-.021M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9-3.75h.008v.008H12V8.25z" />
+              </svg>
+              <div>
+                <p class="text-sm font-medium text-indigo-800">Dica</p>
+                <p class="text-sm text-indigo-700 mt-1">O volume de pedidos nos ajuda a dimensionar a infraestrutura ideal para seu negocio. Voce podera alterar essa estimativa posteriormente.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Step 6: Aceite & Revisão -->
+      <div class="step-content hidden" data-step="6">
+        <h2 class="text-lg font-semibold text-gray-900 mb-6">Aceite e Revisao</h2>
+
+        <!-- Resumo -->
+        <div id="reviewSummary" class="mb-6 space-y-4"></div>
+
+        <!-- Aceites -->
+        <div class="space-y-4 border-t border-gray-200 pt-6">
+          <label class="flex items-start gap-3 cursor-pointer">
+            <input type="checkbox" name="aceite_termos" class="w-4 h-4 mt-0.5 text-indigo-600 rounded focus:ring-indigo-500 border-gray-300">
+            <span class="text-sm text-gray-700">Li e aceito os <strong>Termos de Uso</strong> e a <strong>Politica de Privacidade</strong> da plataforma BuscaBusca. <span class="text-red-500">*</span></span>
+          </label>
+          <label class="flex items-start gap-3 cursor-pointer">
+            <input type="checkbox" name="aceite_veracidade" class="w-4 h-4 mt-0.5 text-indigo-600 rounded focus:ring-indigo-500 border-gray-300">
+            <span class="text-sm text-gray-700">Declaro que as informacoes prestadas sao verdadeiras e estou ciente de que dados falsos podem resultar em suspensao. <span class="text-red-500">*</span></span>
+          </label>
+        </div>
+      </div>
+
+      <!-- Navigation buttons -->
+      <div class="flex items-center justify-between mt-8 pt-6 border-t border-gray-200">
+        <button type="button" id="btnPrev" onclick="prevStep()" class="hidden items-center gap-2 px-5 py-2.5 border border-gray-300 text-gray-700 text-sm font-medium rounded-lg hover:bg-gray-50 transition">
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
+          </svg>
+          Anterior
+        </button>
+        <div></div>
+        <button type="button" id="btnNext" onclick="nextStep()"
+          class="inline-flex items-center gap-2 px-5 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-semibold rounded-lg transition focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
+          Proximo
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
+          </svg>
+        </button>
+        <button type="button" id="btnSubmit" onclick="submitForm()" class="hidden items-center gap-2 px-6 py-2.5 bg-green-600 hover:bg-green-700 text-white text-sm font-semibold rounded-lg transition focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2">
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+          </svg>
+          <span id="btnSubmitText">Salvar Cadastro</span>
+        </button>
+      </div>
+    </form>
+
+  </main>
+
+  <script>
+    const token = sessionStorage.getItem('bb_token');
+    const nome  = sessionStorage.getItem('bb_nome')  || '';
+    const emailUser = sessionStorage.getItem('bb_email') || '';
+
+    if (!token) window.location.href = 'login.html';
+
+    document.getElementById('userNome').textContent  = nome || emailUser;
+    document.getElementById('userEmail').textContent = emailUser;
+
+    function toggleMobileMenu() {
+      document.getElementById('mobileMenu').classList.toggle('hidden');
+    }
+
+    // Edit mode
+    const urlParams = new URLSearchParams(window.location.search);
+    const editId = urlParams.get('id');
+    let currentStep = 1;
+    const totalSteps = 6;
+
+    if (editId) {
+      document.getElementById('pageTitle').textContent = 'Editar Cadastro de Lojista';
+      loadRegistro(editId);
+    }
+
+    // === Validacao CNPJ ===
+    function validarCNPJ(cnpj) {
+      cnpj = cnpj.replace(/\D/g, '');
+      if (cnpj.length !== 14) return false;
+      if (/^(\d)\1{13}$/.test(cnpj)) return false; // todos iguais
+
+      const pesos1 = [5,4,3,2,9,8,7,6,5,4,3,2];
+      const pesos2 = [6,5,4,3,2,9,8,7,6,5,4,3,2];
+
+      let soma = 0;
+      for (let i = 0; i < 12; i++) soma += parseInt(cnpj[i]) * pesos1[i];
+      let resto = soma % 11;
+      const d1 = resto < 2 ? 0 : 11 - resto;
+      if (parseInt(cnpj[12]) !== d1) return false;
+
+      soma = 0;
+      for (let i = 0; i < 13; i++) soma += parseInt(cnpj[i]) * pesos2[i];
+      resto = soma % 11;
+      const d2 = resto < 2 ? 0 : 11 - resto;
+      return parseInt(cnpj[13]) === d2;
+    }
+
+    // === Validacao CPF ===
+    function validarCPF(cpf) {
+      cpf = cpf.replace(/\D/g, '');
+      if (cpf.length !== 11) return false;
+      if (/^(\d)\1{10}$/.test(cpf)) return false; // todos iguais
+
+      let soma = 0;
+      for (let i = 0; i < 9; i++) soma += parseInt(cpf[i]) * (10 - i);
+      let resto = soma % 11;
+      const d1 = resto < 2 ? 0 : 11 - resto;
+      if (parseInt(cpf[9]) !== d1) return false;
+
+      soma = 0;
+      for (let i = 0; i < 10; i++) soma += parseInt(cpf[i]) * (11 - i);
+      resto = soma % 11;
+      const d2 = resto < 2 ? 0 : 11 - resto;
+      return parseInt(cpf[10]) === d2;
+    }
+
+    // === Feedback visual ===
+    function setFieldFeedback(inputId, feedbackId, isValid, msgOk, msgError) {
+      const input = document.getElementById(inputId);
+      const fb = document.getElementById(feedbackId);
+      input.classList.remove('border-red-400', 'border-green-400');
+      if (isValid === null) { fb.classList.add('hidden'); return; }
+      fb.classList.remove('hidden', 'text-red-600', 'text-green-600');
+      if (isValid) {
+        input.classList.add('border-green-400');
+        fb.classList.add('text-green-600');
+        fb.textContent = msgOk;
+      } else {
+        input.classList.add('border-red-400');
+        fb.classList.add('text-red-600');
+        fb.textContent = msgError;
+      }
+    }
+
+    // === CNPJ mask + validacao ===
+    document.getElementById('cnpj').addEventListener('input', function(e) {
+      let v = e.target.value.replace(/\D/g, '').slice(0, 14);
+      if (v.length > 12) v = v.replace(/^(\d{2})(\d{3})(\d{3})(\d{4})(\d{0,2})/, '$1.$2.$3/$4-$5');
+      else if (v.length > 8) v = v.replace(/^(\d{2})(\d{3})(\d{3})(\d{0,4})/, '$1.$2.$3/$4');
+      else if (v.length > 5) v = v.replace(/^(\d{2})(\d{3})(\d{0,3})/, '$1.$2.$3');
+      else if (v.length > 2) v = v.replace(/^(\d{2})(\d{0,3})/, '$1.$2');
+      e.target.value = v;
+
+      const digits = v.replace(/\D/g, '');
+      if (digits.length === 0) setFieldFeedback('cnpj', 'cnpj_feedback', null);
+      else if (digits.length === 14) setFieldFeedback('cnpj', 'cnpj_feedback', validarCNPJ(digits), 'CNPJ valido', 'CNPJ invalido');
+      else setFieldFeedback('cnpj', 'cnpj_feedback', null);
+    });
+
+    // === CPF mask + validacao ===
+    document.getElementById('resp_cpf').addEventListener('input', function(e) {
+      let v = e.target.value.replace(/\D/g, '').slice(0, 11);
+      if (v.length > 9) v = v.replace(/^(\d{3})(\d{3})(\d{3})(\d{0,2})/, '$1.$2.$3-$4');
+      else if (v.length > 6) v = v.replace(/^(\d{3})(\d{3})(\d{0,3})/, '$1.$2.$3');
+      else if (v.length > 3) v = v.replace(/^(\d{3})(\d{0,3})/, '$1.$2');
+      e.target.value = v;
+
+      const digits = v.replace(/\D/g, '');
+      if (digits.length === 0) setFieldFeedback('resp_cpf', 'cpf_feedback', null);
+      else if (digits.length === 11) setFieldFeedback('resp_cpf', 'cpf_feedback', validarCPF(digits), 'CPF valido', 'CPF invalido');
+      else setFieldFeedback('resp_cpf', 'cpf_feedback', null);
+    });
+
+    // === Telefone mask (00) 00000-0000 ou (00) 0000-0000 ===
+    document.getElementById('resp_telefone').addEventListener('input', function(e) {
+      let v = e.target.value.replace(/\D/g, '').slice(0, 11);
+      if (v.length > 10) v = v.replace(/^(\d{2})(\d{5})(\d{0,4})/, '($1) $2-$3');
+      else if (v.length > 6) v = v.replace(/^(\d{2})(\d{4})(\d{0,4})/, '($1) $2-$3');
+      else if (v.length > 2) v = v.replace(/^(\d{2})(\d{0,5})/, '($1) $2');
+      else if (v.length > 0) v = v.replace(/^(\d{0,2})/, '($1');
+      e.target.value = v;
+    });
+
+    // === Capital Social mask R$ 0.000,00 ===
+    document.getElementById('capital_social').addEventListener('input', function(e) {
+      let v = e.target.value.replace(/\D/g, '');
+      if (v === '') { e.target.value = ''; return; }
+      v = v.replace(/^0+/, '') || '0';
+      while (v.length < 3) v = '0' + v;
+      const cents = v.slice(-2);
+      let intPart = v.slice(0, -2);
+      intPart = intPart.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+      e.target.value = 'R$ ' + intPart + ',' + cents;
+    });
+
+    // === CEP mask 00000-000 ===
+    document.getElementById('estoque_cep').addEventListener('input', function(e) {
+      let v = e.target.value.replace(/\D/g, '').slice(0, 8);
+      if (v.length > 5) v = v.replace(/^(\d{5})(\d{0,3})/, '$1-$2');
+      e.target.value = v;
+    });
+
+    function updateStepper() {
+      const pct = Math.round(((currentStep - 1) / (totalSteps - 1)) * 100);
+      document.getElementById('stepLabel').textContent = 'Etapa ' + currentStep + ' de ' + totalSteps;
+      document.getElementById('stepPercent').textContent = pct + '%';
+      document.getElementById('progressBar').style.width = pct + '%';
+
+      // Step buttons
+      document.querySelectorAll('.step-btn').forEach(btn => {
+        const s = parseInt(btn.dataset.step);
+        btn.className = 'step-btn text-center py-2 rounded-lg text-xs font-medium transition ';
+        if (s === currentStep) btn.className += 'bg-indigo-600 text-white';
+        else if (s < currentStep) btn.className += 'bg-indigo-100 text-indigo-700';
+        else btn.className += 'bg-gray-100 text-gray-500';
+      });
+
+      // Step content
+      document.querySelectorAll('.step-content').forEach(el => {
+        el.classList.toggle('hidden', parseInt(el.dataset.step) !== currentStep);
+      });
+
+      // Buttons
+      const prev = document.getElementById('btnPrev');
+      const next = document.getElementById('btnNext');
+      const submit = document.getElementById('btnSubmit');
+
+      prev.style.display = currentStep > 1 ? 'inline-flex' : 'none';
+      next.style.display = currentStep < totalSteps ? 'inline-flex' : 'none';
+      submit.style.display = currentStep === totalSteps ? 'inline-flex' : 'none';
+
+      // Build review on step 6
+      if (currentStep === totalSteps) buildReview();
+
+      hideAlert();
+    }
+
+    function goToStep(step) {
+      if (step >= 1 && step <= totalSteps) {
+        currentStep = step;
+        updateStepper();
+      }
+    }
+
+    function nextStep() {
+      if (currentStep < totalSteps) {
+        currentStep++;
+        updateStepper();
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+    }
+
+    function prevStep() {
+      if (currentStep > 1) {
+        currentStep--;
+        updateStepper();
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+    }
+
+    function collectFormData() {
+      const form = document.getElementById('wizardForm');
+      const data = {};
+
+      // Text/select/date/number inputs
+      form.querySelectorAll('input[type="text"], input[type="email"], input[type="number"], input[type="date"], select, textarea').forEach(el => {
+        if (el.name) data[el.name] = el.value;
+      });
+
+      // Radio
+      form.querySelectorAll('input[type="radio"]:checked').forEach(el => {
+        if (el.name) data[el.name] = el.value;
+      });
+
+      // Checkboxes (toggles and checkboxes)
+      form.querySelectorAll('input[type="checkbox"]').forEach(el => {
+        if (el.name) data[el.name] = el.checked;
+      });
+
+      // Convert capital_social from "R$ 1.234,56" to 1234.56
+      if (data.capital_social) {
+        const raw = data.capital_social.replace(/[R$\s.]/g, '').replace(',', '.');
+        data.capital_social = parseFloat(raw) || 0;
+      }
+
+      return data;
+    }
+
+    function buildReview() {
+      const data = collectFormData();
+      const sections = [
+        { title: 'Identificacao', fields: [
+          ['Tipo de Pessoa', data.tipo_pessoa],
+          ['CNPJ', data.cnpj],
+          ['Razao Social', data.razao_social],
+          ['Nome Fantasia', data.nome_fantasia],
+          ['Data de Abertura', data.data_abertura],
+          ['Capital Social', data.capital_social ? 'R$ ' + Number(data.capital_social).toLocaleString('pt-BR', {minimumFractionDigits:2}) : ''],
+          ['Regime Tributario', data.regime_tributario],
+          ['Inscricao Estadual', data.inscricao_estadual],
+          ['Responsavel', data.resp_nome],
+          ['CPF Responsavel', data.resp_cpf],
+          ['E-mail Responsavel', data.resp_email],
+          ['Telefone Responsavel', data.resp_telefone],
+        ]},
+        { title: 'Segmento e Produtos', fields: [
+          ['Segmento', data.segmento],
+          ['Descricao', data.descricao_produtos],
+          ['Origem', data.origem_produtos],
+          ['Produtos Restritos', data.produtos_restritos ? 'Sim' : 'Nao'],
+        ]},
+        { title: 'Estrutura e Logistica', fields: [
+          ['Loja Fisica', data.possui_loja ? 'Sim' : 'Nao'],
+          ['Estoque Proprio', data.possui_estoque ? 'Sim' : 'Nao'],
+          ['CEP Estoque', data.estoque_cep],
+          ['Endereco Estoque', data.estoque_endereco],
+          ['Logistica', data.logistica_envio],
+        ]},
+        { title: 'Financeiro', fields: [
+          ['Emissao NF', data.emissao_nf],
+          ['Banco', data.banco],
+          ['Agencia', data.agencia],
+          ['Conta', data.conta],
+          ['Tipo Conta', data.tipo_conta],
+        ]},
+        { title: 'Estrategia', fields: [
+          ['Volume Pedidos', data.volume_pedidos],
+        ]},
+      ];
+
+      const html = sections.map(s => `
+        <div class="bg-gray-50 rounded-lg p-4">
+          <h3 class="text-sm font-semibold text-gray-800 mb-2">${s.title}</h3>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-1">
+            ${s.fields.map(([label, val]) => `
+              <div class="flex justify-between py-1 border-b border-gray-200">
+                <span class="text-xs text-gray-500">${label}</span>
+                <span class="text-xs font-medium text-gray-800">${esc(val || '—')}</span>
+              </div>
+            `).join('')}
+          </div>
+        </div>
+      `).join('');
+
+      document.getElementById('reviewSummary').innerHTML = html;
+    }
+
+    function esc(str) {
+      if (typeof str !== 'string') str = String(str ?? '');
+      const d = document.createElement('div');
+      d.textContent = str;
+      return d.innerHTML;
+    }
+
+    function showAlert(msg, type) {
+      const el = document.getElementById('alertBox');
+      el.classList.remove('hidden', 'bg-red-50', 'text-red-700', 'border-red-200', 'bg-green-50', 'text-green-700', 'border-green-200');
+      if (type === 'error') {
+        el.classList.add('bg-red-50', 'text-red-700', 'border-red-200');
+      } else {
+        el.classList.add('bg-green-50', 'text-green-700', 'border-green-200');
+      }
+      el.innerHTML = '<span>' + esc(msg) + '</span>';
+      el.classList.remove('hidden');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function hideAlert() {
+      document.getElementById('alertBox').classList.add('hidden');
+    }
+
+    async function submitForm() {
+      const data = collectFormData();
+
+      // Validate required fields
+      if (!data.tipo_pessoa) { showAlert('Tipo de pessoa e obrigatorio.', 'error'); return; }
+      if (!data.resp_nome) { showAlert('Nome do responsavel e obrigatorio.', 'error'); goToStep(1); return; }
+      if (!data.resp_email) { showAlert('E-mail do responsavel e obrigatorio.', 'error'); goToStep(1); return; }
+
+      // Validate CNPJ if filled
+      const cnpjDigits = (data.cnpj || '').replace(/\D/g, '');
+      if (cnpjDigits.length > 0 && !validarCNPJ(cnpjDigits)) {
+        showAlert('CNPJ informado e invalido. Verifique os digitos.', 'error');
+        goToStep(1);
+        return;
+      }
+
+      // Validate CPF if filled
+      const cpfDigits = (data.resp_cpf || '').replace(/\D/g, '');
+      if (cpfDigits.length > 0 && !validarCPF(cpfDigits)) {
+        showAlert('CPF do responsavel e invalido. Verifique os digitos.', 'error');
+        goToStep(1);
+        return;
+      }
+
+      if (!data.aceite_termos) { showAlert('Voce precisa aceitar os Termos de Uso.', 'error'); return; }
+      if (!data.aceite_veracidade) { showAlert('Voce precisa declarar a veracidade das informacoes.', 'error'); return; }
+
+      const btn = document.getElementById('btnSubmit');
+      const btnText = document.getElementById('btnSubmitText');
+      btn.disabled = true;
+      btnText.textContent = 'Salvando...';
+
+      const method = editId ? 'PUT' : 'POST';
+      const url = editId ? '/registros/' + editId : '/registros';
+
+      try {
+        const res = await fetch(url, {
+          method: method,
+          headers: {
+            'Authorization': 'Bearer ' + token,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(data),
+        });
+        const result = await res.json();
+
+        if (res.status === 401) {
+          sessionStorage.clear();
+          window.location.href = 'login.html';
+          return;
+        }
+
+        if (result.success) {
+          sessionStorage.setItem('bb_success_msg', editId ? 'Registro atualizado com sucesso!' : 'Novo lojista cadastrado com sucesso!');
+          window.location.href = 'dashboard.html';
+        } else {
+          showAlert(result.message || 'Erro ao salvar registro.', 'error');
+          btn.disabled = false;
+          btnText.textContent = 'Salvar Cadastro';
+        }
+      } catch {
+        showAlert('Erro de conexao. O servidor esta em execucao?', 'error');
+        btn.disabled = false;
+        btnText.textContent = 'Salvar Cadastro';
+      }
+    }
+
+    async function loadRegistro(id) {
+      try {
+        const res = await fetch('registros', {
+          headers: { 'Authorization': 'Bearer ' + token },
+        });
+        const data = await res.json();
+
+        if (res.status === 401) {
+          sessionStorage.clear();
+          window.location.href = 'login.html';
+          return;
+        }
+
+        if (!data.success) return;
+
+        const reg = (data.data || []).find(r => String(r.id) === String(id));
+        if (!reg) {
+          showAlert('Registro nao encontrado.', 'error');
+          return;
+        }
+
+        const form = document.getElementById('wizardForm');
+
+        // Fill text/select/date/number inputs
+        Object.keys(reg).forEach(key => {
+          const el = form.querySelector('[name="' + key + '"]');
+          if (!el) return;
+
+          if (el.type === 'radio') {
+            const radio = form.querySelector('input[name="' + key + '"][value="' + reg[key] + '"]');
+            if (radio) radio.checked = true;
+          } else if (el.type === 'checkbox') {
+            el.checked = !!reg[key];
+          } else {
+            el.value = reg[key] ?? '';
+          }
+        });
+
+        document.getElementById('btnSubmitText').textContent = 'Atualizar Cadastro';
+      } catch {
+        showAlert('Erro ao carregar dados do registro.', 'error');
+      }
+    }
+
+    async function logout() {
+      try {
+        await fetch('logout', { method: 'POST', headers: { 'Authorization': 'Bearer ' + token } });
+      } finally {
+        sessionStorage.clear();
+        window.location.href = 'login.html';
+      }
+    }
+
+    updateStepper();
+  </script>
+</body>
+</html>

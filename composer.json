@@ -3,12 +3,17 @@
     "description": "BuscaBusca API REST - Teste Técnico Adianti + SQLite",
     "type": "project",
     "require": {
-        "php": ">=8.1",
+        "php": ">=8.0",
         "plenatech/adianti_framework": "^8.2"
     },
     "autoload": {
         "psr-4": {
             "App\\": "app/"
+        }
+    },
+    "config": {
+        "platform": {
+            "php": "8.0.10"
         }
     },
     "minimum-stability": "stable",

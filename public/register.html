@@ -111,14 +111,14 @@
       <!-- Link login -->
       <p class="mt-6 text-center text-sm text-gray-600">
         Já tem uma conta?
-        <a href="/login.html" class="text-indigo-600 hover:text-indigo-800 font-medium transition">Entrar</a>
+        <a href="login.html" class="text-indigo-600 hover:text-indigo-800 font-medium transition">Entrar</a>
       </p>
     </div>
   </div>
 
   <script>
     if (sessionStorage.getItem('bb_token')) {
-      window.location.href = '/dashboard.html';
+      window.location.href = 'dashboard.html';
     }
 
     const eyeOpen  = `<svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.641 0-8.573-3.007-9.963-7.178z" /><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /></svg>`;
@@ -156,7 +156,7 @@
       btn.textContent = 'Criando conta...';
 
       try {
-        const res = await fetch('/register', {
+        const res = await fetch('register', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
@@ -173,7 +173,7 @@
           sessionStorage.setItem('bb_email',   data.data.usuario.email);
           sessionStorage.setItem('bb_nome',    data.data.usuario.nome ?? data.data.usuario.email);
           sessionStorage.setItem('bb_user_id', data.data.usuario.id);
-          window.location.href = '/dashboard.html';
+          window.location.href = 'dashboard.html';
         } else {
           showAlert(data.message || 'Erro ao criar conta');
           btn.disabled    = false;

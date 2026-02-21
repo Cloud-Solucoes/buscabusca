@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BuscaBusca — API Docs</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    .json-key { color: #6366f1; }
+    .json-string { color: #059669; }
+    .json-number { color: #d97706; }
+    .json-bool { color: #dc2626; }
+    .json-null { color: #9ca3af; }
+  </style>
+</head>
+<body class="min-h-screen bg-gray-50">
+
+  <!-- Nav Menu -->
+  <nav class="bg-white border-b border-gray-200 shadow-sm">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6">
+      <div class="flex items-center justify-between h-16">
+        <div class="flex items-center gap-6">
+          <a href="dashboard.html" class="flex items-center gap-2">
+            <div class="inline-flex items-center justify-center w-9 h-9 bg-indigo-600 rounded-xl">
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-white" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 21v-7.5a.75.75 0 01.75-.75h3a.75.75 0 01.75.75V21m-4.5 0H2.36m11.14 0H18m0 0h3.64m-1.39 0V9.349m-16.5 11.65V9.35m0 0a3.001 3.001 0 003.75-.615A2.993 2.993 0 009.75 9.75c.896 0 1.7-.393 2.25-1.016a2.993 2.993 0 002.25 1.016c.896 0 1.7-.393 2.25-1.016a3.001 3.001 0 003.75.614m-16.5 0a3.004 3.004 0 01-.621-4.72L4.318 3.44A1.5 1.5 0 015.378 3h13.243a1.5 1.5 0 011.06.44l1.19 1.189a3 3 0 01-.621 4.72m-13.5 8.65h3.75a.75.75 0 00.75-.75V13.5a.75.75 0 00-.75-.75H6.75a.75.75 0 00-.75.75v3.75c0 .415.336.75.75.75z" />
+              </svg>
+            </div>
+            <span class="text-lg font-bold text-gray-900 hidden sm:inline">BuscaBusca</span>
+          </a>
+          <div class="hidden md:flex items-center gap-1">
+            <a href="dashboard.html" class="flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm font-medium text-gray-600 hover:text-gray-900 hover:bg-gray-100 transition">
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6A2.25 2.25 0 016 3.75h2.25A2.25 2.25 0 0110.5 6v2.25a2.25 2.25 0 01-2.25 2.25H6a2.25 2.25 0 01-2.25-2.25V6zM3.75 15.75A2.25 2.25 0 016 13.5h2.25a2.25 2.25 0 012.25 2.25V18a2.25 2.25 0 01-2.25 2.25H6A2.25 2.25 0 013.75 18v-2.25zM13.5 6a2.25 2.25 0 012.25-2.25H18A2.25 2.25 0 0120.25 6v2.25A2.25 2.25 0 0118 10.5h-2.25a2.25 2.25 0 01-2.25-2.25V6zM13.5 15.75a2.25 2.25 0 012.25-2.25H18a2.25 2.25 0 012.25 2.25V18A2.25 2.25 0 0118 20.25h-2.25A2.25 2.25 0 0113.5 18v-2.25z" /></svg>
+              Dashboard
+            </a>
+            <a href="cadastro.html" class="flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm font-medium text-gray-600 hover:text-gray-900 hover:bg-gray-100 transition">
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m3.75 9v6m3-3H9m1.5-12H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z" /></svg>
+              Cadastro
+            </a>
+            <a href="swagger.html" class="flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm font-medium bg-indigo-50 text-indigo-700">
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M17.25 6.75L22.5 12l-5.25 5.25m-10.5 0L1.5 12l5.25-5.25m7.5-3l-4.5 16.5" /></svg>
+              API Docs
+            </a>
+          </div>
+        </div>
+        <div class="flex items-center gap-3">
+          <div class="hidden sm:flex items-center gap-2.5">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8 text-gray-400" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M17.982 18.725A7.488 7.488 0 0012 15.75a7.488 7.488 0 00-5.982 2.975m11.963 0a9 9 0 10-11.963 0m11.963 0A8.966 8.966 0 0112 21a8.966 8.966 0 01-5.982-2.275M15 9.75a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
+            <div class="text-right">
+              <p id="userNome" class="text-sm font-medium text-gray-800"></p>
+              <p id="userEmail" class="text-xs text-gray-500"></p>
+            </div>
+          </div>
+          <button onclick="logout()" class="flex items-center gap-1.5 text-sm text-gray-600 hover:text-red-600 transition font-medium px-3 py-1.5 rounded-lg hover:bg-red-50">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6a2.25 2.25 0 00-2.25 2.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15M12 9l-3 3m0 0l3 3m-3-3h12.75" />
+            </svg>
+            Sair
+          </button>
+          <button class="md:hidden p-2 rounded-lg hover:bg-gray-100 transition" onclick="toggleMobileMenu()">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-gray-600" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+            </svg>
+          </button>
+        </div>
+      </div>
+      <div id="mobileMenu" class="md:hidden hidden border-t border-gray-100 py-2 pb-3">
+        <a href="dashboard.html" class="flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium text-gray-600 hover:bg-gray-100">
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6A2.25 2.25 0 016 3.75h2.25A2.25 2.25 0 0110.5 6v2.25a2.25 2.25 0 01-2.25 2.25H6a2.25 2.25 0 01-2.25-2.25V6zM3.75 15.75A2.25 2.25 0 016 13.5h2.25a2.25 2.25 0 012.25 2.25V18a2.25 2.25 0 01-2.25 2.25H6A2.25 2.25 0 013.75 18v-2.25zM13.5 6a2.25 2.25 0 012.25-2.25H18A2.25 2.25 0 0120.25 6v2.25A2.25 2.25 0 0118 10.5h-2.25a2.25 2.25 0 01-2.25-2.25V6zM13.5 15.75a2.25 2.25 0 012.25-2.25H18a2.25 2.25 0 012.25 2.25V18A2.25 2.25 0 0118 20.25h-2.25A2.25 2.25 0 0113.5 18v-2.25z" /></svg>
+          Dashboard
+        </a>
+        <a href="cadastro.html" class="flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium text-gray-600 hover:bg-gray-100">
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m3.75 9v6m3-3H9m1.5-12H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z" /></svg>
+          Cadastro
+        </a>
+        <a href="swagger.html" class="flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium bg-indigo-50 text-indigo-700">
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M17.25 6.75L22.5 12l-5.25 5.25m-10.5 0L1.5 12l5.25-5.25m7.5-3l-4.5 16.5" /></svg>
+          API Docs
+        </a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Conteúdo -->
+  <main class="max-w-6xl mx-auto px-4 sm:px-6 py-8">
+
+    <div class="mb-8">
+      <h1 class="text-2xl font-bold text-gray-900">Documentação da API</h1>
+      <p class="text-gray-500 mt-1">Explore e teste os endpoints da API BuscaBusca.</p>
+      <div class="mt-3 flex items-center gap-2 text-sm">
+        <span class="text-gray-500">Base URL:</span>
+        <code id="baseUrl" class="bg-gray-100 px-2 py-0.5 rounded text-gray-700 font-mono text-xs"></code>
+      </div>
+    </div>
+
+    <!-- Token info -->
+    <div id="tokenInfo" class="mb-6 p-3 rounded-lg text-sm bg-indigo-50 border border-indigo-200 text-indigo-700 flex items-center gap-2">
+      <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z" />
+      </svg>
+      <span>Token Bearer ativo. As chamadas autenticadas usarão seu token de sessão automaticamente.</span>
+    </div>
+
+    <!-- Endpoints -->
+    <div class="space-y-3" id="endpoints"></div>
+
+  </main>
+
+  <script>
+    const token = sessionStorage.getItem('bb_token');
+    const nome  = sessionStorage.getItem('bb_nome')  || '';
+    const email = sessionStorage.getItem('bb_email') || '';
+
+    if (!token) window.location.href = 'login.html';
+
+    document.getElementById('userNome').textContent  = nome || email;
+    document.getElementById('userEmail').textContent = email;
+    document.getElementById('baseUrl').textContent = window.location.origin;
+
+    function toggleMobileMenu() {
+      document.getElementById('mobileMenu').classList.toggle('hidden');
+    }
+
+    const endpoints = [
+      {
+        method: 'POST', path: '/login', auth: false,
+        desc: 'Autenticar usuário e obter token Bearer.',
+        reqBody: { email: 'admin@buscabusca.com', senha: '123456' },
+        resSuccess: { success: true, data: { token: 'abc123...', expira_em: '2026-02-22T00:00:00', usuario: { id: 1, nome: 'João', email: 'usuario@email.com' } }, message: 'Login realizado com sucesso' },
+        resError: { success: false, message: 'Credenciais inválidas' }
+      },
+      {
+        method: 'POST', path: '/register', auth: false,
+        desc: 'Criar nova conta de usuário.',
+        reqBody: { nome: 'João Silva', email: 'joao@email.com', senha: 'minhasenha123' },
+        resSuccess: { success: true, data: { id: 1, nome: 'João Silva', email: 'joao@email.com' }, message: 'Usuário registrado com sucesso' },
+        resError: { success: false, message: 'Este e-mail já está cadastrado' }
+      },
+      {
+        method: 'POST', path: '/logout', auth: true,
+        desc: 'Encerrar sessão e invalidar o token.',
+        reqBody: null,
+        resSuccess: { success: true, message: 'Logout realizado com sucesso' },
+        resError: { success: false, message: 'Token inválido ou expirado' }
+      },
+      {
+        method: 'POST', path: '/forgot-password', auth: false,
+        desc: 'Solicitar token de recuperação de senha (modo mock).',
+        reqBody: { email: 'usuario@email.com' },
+        resSuccess: { success: true, message: 'Token de reset gerado', data: { reset_token: 'abc123...' } },
+        resError: { success: false, message: 'E-mail não encontrado' }
+      },
+      {
+        method: 'POST', path: '/reset-password', auth: false,
+        desc: 'Redefinir senha usando token de recuperação.',
+        reqBody: { token: 'abc123...', nova_senha: 'novasenha456' },
+        resSuccess: { success: true, message: 'Senha redefinida com sucesso' },
+        resError: { success: false, message: 'Token inválido ou expirado' }
+      },
+      {
+        method: 'GET', path: '/registros', auth: true,
+        desc: 'Listar todos os registros de lojistas do usuário autenticado.',
+        reqBody: null,
+        resSuccess: { success: true, data: [{ id: 1, tipo_pessoa: 'PJ', cnpj: '12.345.678/0001-99', razao_social: 'Loja Exemplo LTDA', nome_fantasia: 'Loja Exemplo', resp_nome: 'João Silva', resp_email: 'joao@email.com' }], message: '1 registro(s) encontrado(s)' },
+        resError: { success: false, message: 'Token inválido ou expirado' }
+      },
+      {
+        method: 'POST', path: '/registros', auth: true,
+        desc: 'Cadastrar novo lojista/empresa. Campos obrigatórios: tipo_pessoa, resp_nome, resp_email, aceite_termos, aceite_veracidade. Os demais são opcionais. Equivale ao formulário de cadastro em 6 etapas.',
+        reqBody: { tipo_pessoa: 'PJ', cnpj: '12.345.678/0001-99', razao_social: 'Loja Exemplo LTDA', nome_fantasia: 'Loja Exemplo', data_abertura: '2020-01-15', capital_social: 50000.00, regime_tributario: 'Simples Nacional', inscricao_estadual: '123456789', resp_nome: 'João Silva', resp_cpf: '123.456.789-00', resp_email: 'joao@email.com', resp_telefone: '(11) 99999-0000', segmento: 'Eletrônicos', descricao_produtos: 'Smartphones, tablets e acessórios', origem_produtos: 'Nacional', produtos_restritos: false, possui_loja: true, possui_estoque: true, estoque_cep: '01001-000', estoque_endereco: 'Rua Exemplo, 123 - São Paulo/SP', logistica_envio: 'Correios', emissao_nf: 'Automatica', banco: 'Banco do Brasil', agencia: '1234', conta: '56789-0', tipo_conta: 'Corrente', volume_pedidos: '50-200', aceite_termos: true, aceite_veracidade: true },
+        resSuccess: { success: true, data: { id: 1, tipo_pessoa: 'PJ', razao_social: 'Loja Exemplo LTDA', nome_fantasia: 'Loja Exemplo', resp_nome: 'João Silva', resp_email: 'joao@email.com', created_at: '2026-02-21 14:30:00' }, message: 'Registro criado com sucesso' },
+        resError: { success: false, message: 'Campo obrigatório ausente: resp_nome' }
+      },
+      {
+        method: 'PUT', path: '/registros/{id}', auth: true,
+        desc: 'Atualizar registro de lojista existente. Substitua {id} pelo ID do registro.',
+        reqBody: { nome_fantasia: 'Loja Atualizada', resp_telefone: '(11) 88888-0000' },
+        resSuccess: { success: true, data: { id: 1, nome_fantasia: 'Loja Atualizada' }, message: 'Registro atualizado com sucesso' },
+        resError: { success: false, message: 'Registro 99 não encontrado' },
+        pathParam: true
+      },
+      {
+        method: 'DELETE', path: '/registros/{id}', auth: true,
+        desc: 'Remover registro de lojista. Substitua {id} pelo ID do registro.',
+        reqBody: null,
+        resSuccess: { success: true, message: 'Registro removido com sucesso' },
+        resError: { success: false, message: 'Registro 99 não encontrado' },
+        pathParam: true
+      }
+    ];
+
+    const methodColors = {
+      GET:    'bg-emerald-100 text-emerald-700',
+      POST:   'bg-blue-100 text-blue-700',
+      PUT:    'bg-amber-100 text-amber-700',
+      DELETE: 'bg-red-100 text-red-700'
+    };
+    const methodBorders = {
+      GET:    'border-emerald-200',
+      POST:   'border-blue-200',
+      PUT:    'border-amber-200',
+      DELETE: 'border-red-200'
+    };
+
+    function syntaxHighlight(json) {
+      if (typeof json !== 'string') json = JSON.stringify(json, null, 2);
+      return json.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
+        .replace(/"([^"]+)"(?=\s*:)/g, '<span class="json-key">"$1"</span>')
+        .replace(/:\s*"([^"]*)"/g, ': <span class="json-string">"$1"</span>')
+        .replace(/:\s*(\d+\.?\d*)/g, ': <span class="json-number">$1</span>')
+        .replace(/:\s*(true|false)/g, ': <span class="json-bool">$1</span>')
+        .replace(/:\s*(null)/g, ': <span class="json-null">$1</span>');
+    }
+
+    function renderEndpoints() {
+      const container = document.getElementById('endpoints');
+      container.innerHTML = endpoints.map((ep, i) => `
+        <div class="bg-white rounded-xl border ${methodBorders[ep.method]} overflow-hidden">
+          <!-- Header (clickable) -->
+          <button onclick="toggleEndpoint(${i})" class="w-full px-5 py-4 flex items-center gap-3 hover:bg-gray-50 transition text-left">
+            <span class="px-2.5 py-1 rounded text-xs font-bold ${methodColors[ep.method]} min-w-[60px] text-center">${ep.method}</span>
+            <code class="text-sm font-semibold text-gray-800 flex-1">${ep.path}</code>
+            ${ep.auth ? '<span class="text-xs bg-gray-100 text-gray-600 px-2 py-0.5 rounded hidden sm:inline">Auth</span>' : ''}
+            <svg id="chevron-${i}" xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-gray-400 transition-transform" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
+            </svg>
+          </button>
+
+          <!-- Body (collapsed) -->
+          <div id="body-${i}" class="hidden border-t border-gray-100">
+            <div class="px-5 py-4 space-y-4">
+              <p class="text-sm text-gray-600">${ep.desc}</p>
+
+              <!-- Campos editaveis -->
+              <div class="bg-indigo-50 border border-indigo-200 rounded-lg p-4 space-y-3">
+                <div class="flex items-center gap-2 mb-1">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-indigo-600" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931z" /></svg>
+                  <span class="text-xs font-semibold text-indigo-700 uppercase tracking-wide">Edite os dados e teste</span>
+                </div>
+
+                ${ep.pathParam ? `
+                <div>
+                  <label class="block text-xs font-semibold text-indigo-800 mb-1">ID do Registro</label>
+                  <input id="pathParam-${i}" type="number" placeholder="Ex: 1" min="1"
+                    class="w-40 px-3 py-2 text-sm font-mono rounded-lg border-2 border-indigo-300 bg-white text-gray-900 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 focus:outline-none">
+                </div>` : ''}
+
+                ${ep.reqBody ? `
+                <div>
+                  <label class="block text-xs font-semibold text-indigo-800 mb-1">Request Body (JSON)</label>
+                  <textarea id="reqBody-${i}" rows="${Math.min(20, JSON.stringify(ep.reqBody, null, 2).split('\n').length + 1)}" class="w-full px-4 py-3 text-sm font-mono rounded-lg border-2 border-indigo-300 bg-white text-gray-900 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 focus:outline-none resize-y">${JSON.stringify(ep.reqBody, null, 2)}</textarea>
+                </div>` : `
+                <p class="text-xs text-indigo-600">Este endpoint nao requer body — clique "Try it" para executar.</p>`}
+              </div>
+
+              <div>
+                <label class="block text-xs font-medium text-gray-500 mb-1">Response esperado (sucesso)</label>
+                <pre class="text-xs font-mono bg-gray-50 rounded-lg p-3 overflow-x-auto border border-gray-200">${syntaxHighlight(ep.resSuccess)}</pre>
+              </div>
+              <div>
+                <label class="block text-xs font-medium text-gray-500 mb-1">Response esperado (erro)</label>
+                <pre class="text-xs font-mono bg-red-50 rounded-lg p-3 overflow-x-auto border border-red-200">${syntaxHighlight(ep.resError)}</pre>
+              </div>
+
+              <!-- Try It -->
+              <div class="flex items-center gap-3 pt-2 border-t border-gray-100">
+                <button onclick="tryEndpoint(${i})"
+                  class="inline-flex items-center gap-2 px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-semibold rounded-lg transition focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M5.25 5.653c0-.856.917-1.398 1.667-.986l11.54 6.348a1.125 1.125 0 010 1.971l-11.54 6.347a1.125 1.125 0 01-1.667-.985V5.653z" />
+                  </svg>
+                  Try it
+                </button>
+                <span id="status-${i}" class="text-xs text-gray-400"></span>
+              </div>
+
+              <!-- Result -->
+              <div id="result-${i}" class="hidden">
+                <div class="flex items-center justify-between mb-1">
+                  <label class="text-xs font-medium text-gray-500">Response</label>
+                  <span id="statusCode-${i}" class="text-xs font-semibold px-2 py-0.5 rounded"></span>
+                </div>
+                <pre id="resultBody-${i}" class="text-xs font-mono bg-gray-900 text-gray-100 rounded-lg p-3 overflow-x-auto max-h-64"></pre>
+              </div>
+            </div>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function toggleEndpoint(i) {
+      const body = document.getElementById('body-' + i);
+      const chevron = document.getElementById('chevron-' + i);
+      body.classList.toggle('hidden');
+      chevron.style.transform = body.classList.contains('hidden') ? '' : 'rotate(180deg)';
+    }
+
+    async function tryEndpoint(i) {
+      const ep = endpoints[i];
+      const statusEl = document.getElementById('status-' + i);
+      const resultDiv = document.getElementById('result-' + i);
+      const resultBody = document.getElementById('resultBody-' + i);
+      const statusCode = document.getElementById('statusCode-' + i);
+
+      statusEl.textContent = 'Enviando...';
+      resultDiv.classList.add('hidden');
+
+      // Remove leading slash to use relative URL (works locally and on Locaweb subdirectory)
+      let url = ep.path.replace(/^\//, '');
+      if (ep.pathParam) {
+        const paramInput = document.getElementById('pathParam-' + i);
+        const id = paramInput ? paramInput.value.trim() : '';
+        if (!id) { statusEl.textContent = 'Informe o ID!'; return; }
+        url = url.replace('{id}', id);
+      }
+
+      const opts = { method: ep.method, headers: {} };
+      if (ep.auth) opts.headers['Authorization'] = 'Bearer ' + token;
+
+      if (ep.reqBody) {
+        const textarea = document.getElementById('reqBody-' + i);
+        try {
+          opts.body = textarea.value;
+          opts.headers['Content-Type'] = 'application/json';
+        } catch { statusEl.textContent = 'JSON inválido!'; return; }
+      }
+
+      try {
+        const res = await fetch(url, opts);
+        const data = await res.json();
+
+        statusEl.textContent = '';
+        resultDiv.classList.remove('hidden');
+        resultBody.textContent = JSON.stringify(data, null, 2);
+
+        statusCode.textContent = res.status;
+        statusCode.className = 'text-xs font-semibold px-2 py-0.5 rounded ' +
+          (res.ok ? 'bg-emerald-100 text-emerald-700' : 'bg-red-100 text-red-700');
+
+        if (res.status === 401 && ep.auth) {
+          statusEl.textContent = 'Token expirado — faça login novamente.';
+        }
+      } catch (err) {
+        statusEl.textContent = 'Erro de conexão';
+        resultDiv.classList.add('hidden');
+      }
+    }
+
+    async function logout() {
+      try {
+        await fetch('logout', { method: 'POST', headers: { 'Authorization': 'Bearer ' + token } });
+      } finally {
+        sessionStorage.clear();
+        window.location.href = 'login.html';
+      }
+    }
+
+    renderEndpoints();
+  </script>
+</body>
+</html>

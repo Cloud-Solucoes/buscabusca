@@ -81,11 +81,11 @@
       <!-- Links -->
       <div class="mt-6 text-center space-y-2">
         <p class="text-sm text-gray-600">
-          <a href="/forgot-password.html" class="text-indigo-600 hover:text-indigo-800 font-medium transition">Esqueci minha senha</a>
+          <a href="forgot-password.html" class="text-indigo-600 hover:text-indigo-800 font-medium transition">Esqueci minha senha</a>
         </p>
         <p class="text-sm text-gray-600">
           Não tem conta?
-          <a href="/register.html" class="text-indigo-600 hover:text-indigo-800 font-medium transition">Criar conta</a>
+          <a href="register.html" class="text-indigo-600 hover:text-indigo-800 font-medium transition">Criar conta</a>
         </p>
       </div>
     </div>
@@ -94,7 +94,7 @@
   <script>
     // Redirecionar se já estiver logado
     if (sessionStorage.getItem('bb_token')) {
-      window.location.href = '/dashboard.html';
+      window.location.href = 'dashboard.html';
     }
 
     function togglePassword(inputId, iconId) {
@@ -128,7 +128,7 @@
       btn.textContent = 'Entrando...';
 
       try {
-        const res = await fetch('/login', {
+        const res = await fetch('login', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
@@ -140,11 +140,12 @@
         const data = await res.json();
 
         if (data.success) {
-          sessionStorage.setItem('bb_token',   data.data.token);
-          sessionStorage.setItem('bb_email',   data.data.usuario.email);
-          sessionStorage.setItem('bb_nome',    data.data.usuario.nome ?? data.data.usuario.email);
-          sessionStorage.setItem('bb_user_id', data.data.usuario.id);
-          window.location.href = '/dashboard.html';
+          sessionStorage.setItem('bb_token',        data.data.token);
+          sessionStorage.setItem('bb_email',        data.data.usuario.email);
+          sessionStorage.setItem('bb_nome',         data.data.usuario.nome ?? data.data.usuario.email);
+          sessionStorage.setItem('bb_user_id',      data.data.usuario.id);
+          sessionStorage.setItem('bb_token_expiry', data.data.expira_em || '');
+          window.location.href = 'dashboard.html';
         } else {
           showAlert(data.message || 'Credenciais inválidas');
           btn.disabled = false;

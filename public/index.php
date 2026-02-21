@@ -105,8 +105,8 @@ $method = strtoupper($_SERVER['REQUEST_METHOD']);
 $uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 $uri = rtrim($uri, '/');
 
-// Remover prefixo /buscabusca se executando como subdiretório
-$uri = preg_replace('#^/buscabusca#', '', $uri);
+// Remover prefixo de subdiretório (local: /buscabusca, Locaweb: /demos/buscabusca)
+$uri = preg_replace('#^(/demos)?/buscabusca#', '', $uri);
 $uri = $uri ?: '/';
 
 // CORS — origem configurável via variável de ambiente
