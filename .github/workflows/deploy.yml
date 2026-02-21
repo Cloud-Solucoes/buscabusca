@@ -1,14 +1,161 @@
-name: Deploy to Locaweb
+name: CI/CD Pipeline
 
 on:
   push:
-    branches: [main]
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
   workflow_dispatch:
 
+env:
+  PHP_VERSION: '8.0'
+
 jobs:
-  deploy:
-    name: Deploy to Production
+  # ==========================================
+  # CI - Build e Validacoes
+  # ==========================================
+  ci:
+    name: CI - Build & Validate
     runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ env.PHP_VERSION }}
+          extensions: pdo_sqlite, mbstring, json, ctype
+          coverage: none
+
+      - name: Get Composer cache directory
+        id: composer-cache
+        run: echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
+
+      - name: Cache Composer dependencies
+        uses: actions/cache@v4
+        with:
+          path: ${{ steps.composer-cache.outputs.dir }}
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+          restore-keys: ${{ runner.os }}-composer-
+
+      - name: Install Composer dependencies
+        run: composer install --prefer-dist --no-interaction
+
+      - name: Validate composer.json
+        run: composer validate --strict
+
+      - name: Check PSR-4 autoloading
+        run: composer dump-autoload --strict-psr
+
+      - name: PHP Syntax Check
+        run: find app config -name "*.php" -print0 | xargs -0 -n1 php -l
+
+      - name: Verify API router loads
+        run: php -r "define('BASE_PATH', __DIR__); require 'vendor/autoload.php';" && echo "Autoload OK"
+
+  # ==========================================
+  # Testes Automatizados
+  # ==========================================
+  tests:
+    name: Tests - Playwright E2E
+    runs-on: ubuntu-latest
+    needs: ci
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ env.PHP_VERSION }}
+          extensions: pdo_sqlite, mbstring, json, ctype
+          coverage: none
+
+      - name: Install Composer dependencies
+        run: composer install --prefer-dist --no-interaction
+
+      - name: Prepare test database
+        run: |
+          # Copiar banco existente ou criar um novo para testes
+          if [ -f database/buscabusca.db ]; then
+            cp database/buscabusca.db database/buscabusca_test.db
+          fi
+          chmod 664 database/buscabusca.db 2>/dev/null || true
+          chmod 775 database/
+
+      - name: Start PHP built-in server
+        run: |
+          php -S 0.0.0.0:8093 -t public/ &
+          echo $! > /tmp/php_server.pid
+          sleep 2
+
+          # Verificar que o servidor subiu
+          STATUS=$(curl -s -o /dev/null -w '%{http_code}' http://localhost:8093/login.html)
+          echo "Server status: HTTP $STATUS"
+          if [ "$STATUS" != "200" ]; then
+            echo "::error::PHP server failed to start"
+            exit 1
+          fi
+
+      - name: Test API health
+        run: |
+          # Testar login via API
+          RESPONSE=$(curl -s -w "\n%{http_code}" http://localhost:8093/login \
+            -X POST -H "Content-Type: application/json" \
+            -d '{"email":"admin@buscabusca.com","senha":"123456"}')
+          HTTP_CODE=$(echo "$RESPONSE" | tail -1)
+          echo "Login API: HTTP $HTTP_CODE"
+          if [ "$HTTP_CODE" != "200" ]; then
+            echo "::error::Login API returned HTTP $HTTP_CODE"
+            echo "$RESPONSE"
+            exit 1
+          fi
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install Playwright
+        run: |
+          npm ci
+          npx playwright install chromium
+
+      - name: Run Playwright E2E tests
+        run: npx playwright test --reporter=list
+        env:
+          BASE_URL: http://localhost:8093
+
+      - name: Stop PHP server
+        if: always()
+        run: |
+          if [ -f /tmp/php_server.pid ]; then
+            kill $(cat /tmp/php_server.pid) 2>/dev/null || true
+          fi
+
+      - name: Tests Summary
+        if: always()
+        run: |
+          echo "=========================================="
+          echo "Testes E2E concluidos!"
+          echo "Ambiente: GitHub Actions (isolado)"
+          echo "Banco: SQLite local (temporario)"
+          echo "Risco para producao: NENHUM"
+          echo "=========================================="
+
+  # ==========================================
+  # CD - Deploy para Producao
+  # ==========================================
+  cd:
+    name: CD - Deploy to Production
+    runs-on: ubuntu-latest
+    needs: [ci, tests]
+    if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
 
     environment:
       name: production
@@ -24,50 +171,97 @@ jobs:
       SSHPASS: ${{ secrets.SSH_PASSWORD }}
 
     steps:
-      - name: Checkout
+      - name: Checkout code
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
-      - name: Setup PHP 8.0
+      - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: '8.0'
-          extensions: pdo_sqlite, mbstring
+          php-version: ${{ env.PHP_VERSION }}
+          extensions: pdo_sqlite, mbstring, json, ctype
           coverage: none
 
-      - name: Install Composer dependencies
+      - name: Install Composer dependencies (production)
         run: composer install --no-dev --optimize-autoloader --no-interaction --prefer-dist
+
+      - name: Prepare files for deployment
+        run: |
+          rm -rf .git
+          rm -rf .github
+          rm -rf node_modules
+          rm -rf tests
+          rm -rf test-results
+          rm -f .gitignore
+          rm -f .gitattributes
+          rm -f playwright.config.js
+          rm -f package.json
+          rm -f package-lock.json
+          rm -f Dockerfile
+          rm -f deploy_locaweb.sh
+          rm -f security_analyzer.php
+          rm -f phpunit.xml
+          rm -f *.txt
+          rm -f *.postman_collection.json
 
       - name: Install sshpass
         run: sudo apt-get install -y sshpass
 
-      - name: Test SSH connection
-        run: sshpass -e ssh $SSH_OPTS ${{ secrets.FTP_SSH_USERNAME }}@${{ secrets.IP_PROD }} "echo 'SSH OK'"
-
-      - name: Deploy via rsync
+      - name: Try SSH deployment (rsync)
+        id: ssh-deploy
+        continue-on-error: true
         run: |
+          # Test SSH connection
+          echo "Testing SSH connection..."
+          sshpass -e ssh $SSH_OPTS \
+            ${{ secrets.FTP_SSH_USERNAME }}@${{ secrets.IP_PROD }} "echo 'SSH OK'" || exit 1
+
+          # Deploy using rsync (only changed files)
+          echo "Deploying via rsync..."
           sshpass -e rsync -avz --delete \
             -e "ssh $SSH_OPTS" \
-            --exclude='.git' \
-            --exclude='.github' \
-            --exclude='node_modules' \
-            --exclude='tests' \
-            --exclude='test-results' \
-            --exclude='playwright.config.js' \
-            --exclude='package.json' \
-            --exclude='package-lock.json' \
-            --exclude='Dockerfile' \
-            --exclude='deploy_locaweb.sh' \
-            --exclude='*.md' \
-            --exclude='*.txt' \
-            --exclude='*.postman_collection.json' \
-            --exclude='security_analyzer.php' \
-            --exclude='.gitignore' \
+            --exclude='.htaccess' \
             --exclude='.htaccess.locaweb' \
+            --exclude='public/.htaccess' \
             --exclude='public/.htaccess.locaweb' \
             --exclude='database/buscabusca.db' \
             ./ ${{ secrets.FTP_SSH_USERNAME }}@${{ secrets.IP_PROD }}:${{ secrets.DEPLOY_PATH }}/
 
-      - name: Configure Locaweb .htaccess
+          echo "SSH deployment completed!"
+
+      - name: Deploy via FTP (fallback)
+        id: ftp-deploy
+        if: steps.ssh-deploy.outcome == 'failure'
+        run: |
+          echo "SSH failed, using FTP incremental deploy..."
+          sudo apt-get install -y lftp
+
+          lftp -c "
+            set ftp:passive-mode true;
+            set ftp:ssl-allow false;
+            set net:timeout 60;
+            set net:max-retries 3;
+            set mirror:parallel-transfer-count 5;
+            open -u ${{ secrets.FTP_SSH_USERNAME }},${{ secrets.FTP_PASSWORD }} ftp.penseonline.com.br;
+            mirror --reverse --only-newer --verbose \
+              --exclude ^\.htaccess$ \
+              --exclude ^public/\.htaccess$ \
+              --exclude ^database/buscabusca\.db$ \
+              ./ /public_html/penseonline/demos/buscabusca/;
+            bye;
+          "
+
+          echo "FTP deployment completed!"
+
+      - name: Verify deployment methods
+        if: steps.ssh-deploy.outcome == 'failure' && steps.ftp-deploy.outcome == 'failure'
+        run: |
+          echo "::error::Both SSH and FTP deployment methods failed!"
+          exit 1
+
+      - name: Configure Locaweb .htaccess (SSH)
+        if: steps.ssh-deploy.outcome == 'success'
         run: |
           sshpass -e scp $SSH_OPTS \
             .htaccess.locaweb \
@@ -77,7 +271,8 @@ jobs:
             public/.htaccess.locaweb \
             ${{ secrets.FTP_SSH_USERNAME }}@${{ secrets.IP_PROD }}:${{ secrets.DEPLOY_PATH }}/public/.htaccess
 
-      - name: Set permissions
+      - name: Set permissions (SSH)
+        if: steps.ssh-deploy.outcome == 'success'
         run: |
           sshpass -e ssh $SSH_OPTS ${{ secrets.FTP_SSH_USERNAME }}@${{ secrets.IP_PROD }} "
             chmod 775 ${{ secrets.DEPLOY_PATH }}/database
@@ -86,10 +281,21 @@ jobs:
 
       - name: Verify deploy
         run: |
+          sleep 3
           STATUS=$(curl -s -o /dev/null -w '%{http_code}' https://penseonline.com.br/demos/buscabusca/login.html)
           echo "HTTP Status: $STATUS"
           if [ "$STATUS" != "200" ]; then
             echo "::warning::Deploy verification returned HTTP $STATUS"
-          else
-            echo "Deploy OK!"
           fi
+
+      - name: Deployment completed
+        run: |
+          echo "=========================================="
+          echo "Deploy concluido com sucesso!"
+          echo "URL: https://penseonline.com.br/demos/buscabusca"
+          if [ "${{ steps.ssh-deploy.outcome }}" == "success" ]; then
+            echo "Metodo: SSH (rsync)"
+          else
+            echo "Metodo: FTP (incremental)"
+          fi
+          echo "=========================================="
